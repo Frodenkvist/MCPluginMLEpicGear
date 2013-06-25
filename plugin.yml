@@ -1,0 +1,9 @@
+name: EpicGear
+main: me.frodenkvist.armoreditor.ArmorEditor
+version: 1.0.7
+softdepend: [EpicBoss, Towny, Vault]
+description: >
+             Test. port plugin.
+commands:
+    ae:
+        description: Starter command.

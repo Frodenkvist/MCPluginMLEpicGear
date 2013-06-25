@@ -1,0 +1,735 @@
+# epicgear.admin (Gives administrative rights, and everything in the store is free)
+# /eg buy <displayname> (Buy armor <displayname> for <cost> of <moneyitem>)
+# /eg reload (Reload updated Config)
+#
+# Put "'" around it if it starts with a color code. EX: '&cColored weapon name'
+# All lore must have at least one line in the description.
+# If you do not want to use an item (like diamonds) as currency, set -1 as MoneyItem to use the Vault supported economy of your choice.
+#
+#WEAPON TUTORIAL-          
+#            Name: (Name of weapon) 
+#            Display Name: (Name used to purchase weapon)
+#            Cost: (Number of <moneyitem> needed to buy)
+#            Lore:
+#            - 'Description'
+#            - '&3careful you will put an eye out!&kabc'
+#            Type: (Choose one- wood,diamond,iron,gold)
+#            Durability: 1-10 (Levels of unbreaking)
+#            PotionDrinkEffects:
+#            - <effect>,<chance (1.0=100%)>,<duration in seconds> example on next line
+#            - wither,0.0,10
+#            PotionSplashEffects:
+#            - <effect>,<chance (1.0=100%)>,<duration in seconds> example on next line
+#            - blindness,1.0,10
+#            Enchantments:
+#            - <enchantment>,<LEVEL 1-10> example on next line
+#            - sharpness,10
+#ARMOR TUTORIAL-
+#           Name: (Name or weapon)
+#           DisplayName: (Name used to purchase weapon)
+#           Cost:
+#           Lore:
+#          - 'Description'
+#           PveLowestDamage: (Define the lowest and highest possible reduction of damage dealt by mobs.(1 = 1/2 heart))
+#           PveHighestDamage:
+#           PvpLowestDamage: (Define the lowest and highest possible reduction of damage dealt by players. (1 = 1/2 heart))
+#           PvpHighestDamage:
+#           Durability: (Chance that this piece won't get damaged (ex: .7 = 70% chance it won't get damaged. 1 = %100))
+#           CanEnchant: (True/False)
+#           DrinkPotionEffects:
+#           SplashPotionEffects:        
+#
+#=======POTION-EFFECT-OPTIONS=======
+#blindness
+#confusion
+#damage resistance
+#fire resistance
+#heal
+#increase damage
+#invisibility
+#jump
+#night vision
+#poison
+#regeneration
+#slow
+#speed
+#weakness
+#wither
+#======ENCHANT OPTIONS ARMOR========
+#protection
+#fireprotection
+#featherfalling (Boots Only)
+#blastprotection
+#projectileprotection
+#respiration (Helmet Only)
+#aquaaffinity (Helmet Only)
+#thorns
+#unbreaking
+#======ENCHANT OPTIONS SWORDS/AXES======(EXCEPT BOW look below for bow)
+#sharpness
+#ARTHROPODS
+#undead
+#fire
+#loot
+#knockback
+#=======ENCHANT OPTIONS BOW=========
+#damage
+#fire
+#infinite
+#knockback
+UpdateCheckerEnabled: true
+MoneyItem:
+    ID:
+    Name:
+    Lore:
+Red:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+Black:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+Green:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+Blue:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+White:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+Purple:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+Teal:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+Pink:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+Orange:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+Yellow:
+    Helmet:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Chestplate:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Leggings:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+    Boots:
+        Name:
+        Lore:
+        PveLowestDamage:
+        PveHighestDamage: 
+        PvpLowestDamage:
+        PvpHighestDamage:
+        Durability:
+        DisplayName:
+        Cost:
+        CanEnchant:
+        DrinkPotionEffects:
+        SplashPotionEffects:
+        Info:
+        Enchantments:
+        
+Weapons:
+    Swords:
+        1:
+            Name:
+            DisplayName:
+            Lore:
+            -
+            Type:
+            Cost:
+            Durability:
+            PotionDrinkEffects:
+            PotionSplashEffects:
+            Enchantments:
+            Info:
+    Axes:
+        1:
+            Name:
+            DisplayName:
+            Lore:
+            -
+            Type:
+            Cost:
+            Durability:
+            PotionDrinkEffects:
+            PotionSplashEffects:
+            Enchantments:
+            Info:
+    Bows:
+        1:
+            Name:
+            DisplayName:
+            Lore:
+            -
+            Type:
+            Cost:
+            Durability:
+            PotionDrinkEffects:
+            PotionSplashEffects:
+            Enchantments:
+            Info:
