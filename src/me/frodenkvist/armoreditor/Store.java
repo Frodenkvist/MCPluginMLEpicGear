@@ -170,8 +170,6 @@ public class Store
 		{
 			if(!(eg instanceof EpicArmor))
 				continue;
-			//ArmorEditor.plugin.logger.info(Namer.removeTag(eg.getCode()));
-			//ArmorEditor.plugin.logger.info(Namer.removeTag(Namer.removeTag(lore.get(lore.size()-1))));
 			if(Namer.addChatColor(eg.getCode()).equalsIgnoreCase(Namer.addChatColor(lore.get(lore.size()-1))))
 				return (EpicArmor)eg;
 		}
@@ -196,14 +194,8 @@ public class Store
 	
 	public static EpicGear getEpicGear(String diplayname)
 	{
-		//if(is.getItemMeta() == null)
-		//	return null;
-		//List<String> lore = is.getItemMeta().getLore();
-		//if(lore == null || lore.isEmpty())
-		//	return null;
 		for(EpicGear eg : inventory)
 		{
-			//if(!(eg instanceof EpicArmor))
 			if(eg.getDisplayName().equalsIgnoreCase(diplayname))
 				return eg;
 		}
@@ -225,24 +217,12 @@ public class Store
 			nr = pages;
 		player.sendMessage(ChatColor.GOLD + "----" + ChatColor.YELLOW + " EpicGear Store " + ChatColor.GOLD + "----(pg. " + nr + "/" + pages + ")");
 		player.sendMessage(ChatColor.GOLD + "| " + ChatColor.AQUA + " Name " + ChatColor.GOLD + " | " + ChatColor.DARK_AQUA + " Buy Name " + ChatColor.GOLD + " | " + ChatColor.GRAY + " Cost " + ChatColor.GOLD + " |");
-		for(int i = (8*pages-8);i<pages*8;++i)
+		for(int i = ((8*nr)-8);i < (nr*8);++i)
 		{
 			EpicGear eg = inventory.get(i);
 			player.sendMessage(ChatColor.GOLD + "- " + ChatColor.AQUA + Namer.removeTag(eg.getName()) + " " + ChatColor.DARK_AQUA + eg.getDisplayName() + " " + ChatColor.GRAY + eg.getCost());
-			if(inventory.size() >= i+1)
-				return;
+			if((i+1) >= inventory.size())
+				break;
 		}
-		/*else
-		{
-			player.sendMessage(ChatColor.GOLD + "----EpicGear Store----(pg. " + nr + "/" + pages + ")");
-			player.sendMessage(ChatColor.GOLD + "| " + ChatColor.AQUA + " Name " + ChatColor.GOLD + " | " + ChatColor.DARK_AQUA + " Buy Name " + ChatColor.GOLD + " | " + ChatColor.GRAY + " Cost " + ChatColor.GOLD + " |");
-			for(int i = (pages-8);i<pages;++i)
-			{
-				EpicGear eg = inventory.get(i);
-				player.sendMessage(ChatColor.AQUA + eg.getName() + " " + ChatColor.DARK_AQUA + eg.getDisplayName() + " " + ChatColor.GRAY + eg.getCost());
-				if(inventory.size() == i+1)
-					return;
-			}
-		}*/
 	}
 }
