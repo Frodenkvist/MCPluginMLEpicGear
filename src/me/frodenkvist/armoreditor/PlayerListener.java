@@ -131,7 +131,7 @@ public class PlayerListener implements Listener
 			return;
 		for(ItemStack is : player.getInventory().getArmorContents())
 		{
-			if(Store.isEpicArmor(is))
+			if(isLeatherArmor(is))
 			{	
 				if(Math.random() <= 0.99)
 				{
