@@ -142,6 +142,23 @@ public class Store
 		return false;
 	}
 	
+	public static boolean isEpicArmor(ItemStack is)
+	{
+		if(is.getItemMeta() == null)
+			return false;
+		List<String> lore = is.getItemMeta().getLore();
+		if(lore == null || lore.isEmpty())
+			return false;
+		for(EpicGear eg : inventory)
+		{
+			if(!(eg instanceof EpicArmor))
+				continue;
+			if(eg.getCode().equalsIgnoreCase(lore.get(lore.size()-1)))
+				return true;
+		}
+		return false;
+	}
+	
 	public static EpicArmor getEpicArmor(ItemStack is)
 	{
 		if(is.getItemMeta() == null)
