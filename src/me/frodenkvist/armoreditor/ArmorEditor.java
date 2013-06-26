@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -61,6 +62,7 @@ public class ArmorEditor extends JavaPlugin
 				logger.info("Get The New Version At: " + uc.getLink());
 			}
 		}
+		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "Test");
 		configFile = new File(getDataFolder(), "config.yml");
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this.pl, this);
@@ -125,7 +127,16 @@ public class ArmorEditor extends JavaPlugin
 					}
 					/*else if(args[0].equalsIgnoreCase("ls"))
 					{
-						new SkillLightningStorm(player.getTargetBlock(null, 100).getLocation(),player).run();
+						/*ScoreboardManager sm = Bukkit.getScoreboardManager();
+						Scoreboard sb = sm.getMainScoreboard();
+						sb.registerNewObjective("Hit", "Thing");
+						Objective obj = sb.getObjective("Hit");
+						obj.setDisplayName("Plos");
+						obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+						Score score = obj.getScore(player);
+						score.setScore(31);
+						player.setScoreboard(sb);
+						player.sendPluginMessage(this, "Test", "thing".getBytes());
 					}*/
 					else if(args[0].equalsIgnoreCase("repair"))
 					{

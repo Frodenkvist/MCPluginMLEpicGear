@@ -97,11 +97,11 @@ public class Store
 		ArmorEditor.plugin.logger.info("" + inventory.size());
 	}
 	
-	public static ItemStack getItem(String name)
+	public static ItemStack getItem(String displayname)
 	{
 		for(EpicGear eg : inventory)
 		{
-			if(eg.getDisplayName().equalsIgnoreCase(name))
+			if(eg.getDisplayName().equalsIgnoreCase(displayname))
 				return eg.getItem();
 		}
 		return null;

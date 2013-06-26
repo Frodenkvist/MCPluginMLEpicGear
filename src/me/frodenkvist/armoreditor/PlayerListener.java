@@ -18,6 +18,7 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -505,6 +506,20 @@ public class PlayerListener implements Listener
 		}
 	}
 	
+	@EventHandler
+	public void onPlayerDeathEvent(PlayerDeathEvent event)
+	{
+		double chance = AEHandler.getDeathRemoveChance();
+		for(ItemStack is : event.getDrops())
+		{
+			if(isArmor(is) || isWeapon(is))
+			{
+				if(Math.random() <= chance)
+					event.getDrops().remove(is);
+			}
+		}
+	}
+	
 	public int getColor(ItemStack item)
 	{
 		LeatherArmorMeta lam = (LeatherArmorMeta) item.getItemMeta();
@@ -555,6 +570,38 @@ public class PlayerListener implements Listener
 			return true;
 		}
 		return false;
+	}
+	
+	private boolean isArmor(ItemStack is)
+	{
+		if(is == null)
+			return false;
+		switch(is.getTypeId())
+		{
+		case 298:
+		case 299:
+		case 300:
+		case 301:
+		case 302:
+		case 303:
+		case 304:
+		case 305:
+		case 306:
+		case 307:
+		case 308:
+		case 309:
+		case 310:
+		case 311:
+		case 312:
+		case 313:
+		case 314:
+		case 315:
+		case 316:
+		case 317:
+			return true;
+		default:
+			return false;	
+		}
 	}
 	
 	public void activateSkill(String skill, Location target, Player player)

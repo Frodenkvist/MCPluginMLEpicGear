@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class AEHandler
 {
-	public static List<AEPlayer> aePlayers = new ArrayList<AEPlayer>();
 	public final static int BLACK = 1644825;
 	public final static int RED = 13388876;
 	public final static int GREEN = 8375321;
@@ -20,6 +19,19 @@ public class AEHandler
 	public final static int PINK = 14357690;
 	public final static int ORANGE = 16737843;
 	public final static int YELLOW = 16776960;
+	
+	private static List<AEPlayer> aePlayers = new ArrayList<AEPlayer>();
+	private static double deathRemoveChance;
+	
+	public static void load(ArmorEditor plugin)
+	{
+		deathRemoveChance = plugin.getConfig().getDouble("DeathRemoveChance");
+	}
+	
+	public static double getDeathRemoveChance()
+	{
+		return deathRemoveChance;
+	}
 	
 	public static void addPlayer(AEPlayer p)
 	{
@@ -55,148 +67,7 @@ public class AEHandler
 		aePlayers.clear();
 	}
 	
-	/*
-	public static int getRepairCost(String name)
-	{
-		int cost;
-		cost = EpicHelmet.getRepairCost(name);
-		if(cost != -1)
-		{
-			return cost;
-		}
-		cost = EpicChestplate.getRepairCost(name);
-		if(cost != -1)
-		{
-			return cost;
-		}
-		cost = EpicLeggings.getRepairCost(name);
-		if(cost != -1)
-		{
-			return cost;
-		}
-		cost = EpicBoots.getRepairCost(name);
-		if(cost != -1)
-		{
-			return cost;
-		}
-		return -1;
-	}
 	
-	public static int getRepairCost(ItemStack is)
-	{
-		String name = getDisplayName(is);
-		int cost;
-		cost = EpicHelmet.getRepairCost(name);
-		if(cost != -1)
-		{
-			return cost;
-		}
-		cost = EpicChestplate.getRepairCost(name);
-		if(cost != -1)
-		{
-			return cost;
-		}
-		cost = EpicLeggings.getRepairCost(name);
-		if(cost != -1)
-		{
-			return cost;
-		}
-		cost = EpicBoots.getRepairCost(name);
-		if(cost != -1)
-		{
-			return cost;
-		}
-		int id = is.getTypeId();
-		switch(id)
-		{
-		case 268:
-		case 272:
-		case 267:
-		case 283:
-		case 276:
-			int i = 1;
-			while(ArmorEditor.plugin.getConfig().contains("Weapons.Swords." + i))
-			{
-				++i;
-			}
-			--i;
-			for(int j = 1;j<=i;++j)
-			{
-				if(!is.getType().toString().toLowerCase().split("_")[0].equalsIgnoreCase(ArmorEditor.plugin.getConfig().getString("Weapons.Swords." + j + ".Type")))
-					continue;
-				List<String> thing = ArmorEditor.plugin.getConfig().getStringList("Weapons.Swords." + j + ".Lore");
-				String n = thing.get(thing.size()-1);
-				n = Namer.addChatColor(n);
-				String[] things = Namer.getLoreAsArray(is);
-				if(things.length == 0)
-					return -1;
-				String itemInHandn = things[things.length-1];
-					
-				if(itemInHandn.equalsIgnoreCase(n))
-				{
-					return ArmorEditor.plugin.getConfig().getInt("Weapons.Swords." + j + ".RepairCost");
-				}
-			}
-			break;
-		case 271:
-		case 275:
-		case 258:
-		case 286:
-		case 279:
-			int i2 = 1;
-			while(ArmorEditor.plugin.getConfig().contains("Weapons.Swords." + i2))
-			{
-				++i2;
-			}
-			--i2;
-			for(int j = 1;j<=i2;++j)
-			{
-				if(!is.getType().toString().toLowerCase().split("_")[0].equalsIgnoreCase(ArmorEditor.plugin.getConfig().getString("Weapons.Axes." + j + ".Type")))
-					continue;
-				List<String> thing = ArmorEditor.plugin.getConfig().getStringList("Weapons.Axes." + j + ".Lore");
-				String n = thing.get(thing.size()-1);
-				n = Namer.addChatColor(n);
-				String[] things = Namer.getLoreAsArray(is);
-				if(things.length == 0)
-					return -1;
-				String itemInHandn = things[things.length-1];
-				
-				if(itemInHandn.equalsIgnoreCase(n))
-				{
-					return ArmorEditor.plugin.getConfig().getInt("Weapons.Swords." + j + ".RepairCost");
-				}
-			}
-			break;
-		case 261:
-			int i3 = 1;
-			while(true)
-			{
-				if(!ArmorEditor.plugin.getConfig().contains("Weapons.Bows." + String.valueOf(i3)))
-				{
-					--i3;
-					break;
-				}
-				++i3;
-			}
-			for(int j=1;j<=i3;++j)
-			{
-				List<String> thing = ArmorEditor.plugin.getConfig().getStringList("Weapons.Bows." + j + ".Lore");
-				String n = thing.get(thing.size()-1);
-				n = Namer.addChatColor(n);
-				String[] things = Namer.getLoreAsArray(is);
-				if(things.length == 0)
-					return -1;
-				String itemInHandn = things[things.length-1];
-				
-				if(itemInHandn.equalsIgnoreCase(n))
-				{
-					return ArmorEditor.plugin.getConfig().getInt("Weapons.Swords." + j + ".RepairCost");
-				}
-			}
-			break;
-		}
-		return -1;
-	}*/
 	
 	public static ItemStack getToken()
 	{
