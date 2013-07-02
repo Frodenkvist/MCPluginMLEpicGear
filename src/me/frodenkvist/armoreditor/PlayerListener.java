@@ -99,12 +99,12 @@ public class PlayerListener implements Listener
 	{
 		//Bukkit.broadcastMessage("fork");
 		ItemStack is = event.getItem();
-		EpicArmor ea = Store.getEpicArmor(is);
-		if(ea != null)
+		//EpicArmor ea = Store.getEpicArmor(is);
+		if(isLeatherArmor(is))
 		{
 			//Bukkit.broadcastMessage("" + ea.canEnchant());
-			if(!ea.canEnchant())
-				event.setCancelled(true);
+			
+			event.setCancelled(true);
 		}
 	}
 	

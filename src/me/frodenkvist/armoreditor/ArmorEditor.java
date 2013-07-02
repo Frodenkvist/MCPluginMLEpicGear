@@ -99,6 +99,7 @@ public class ArmorEditor extends JavaPlugin
 		this.logger.info("Boots Loaded");*/
 		Store.load(getConfig());
 		this.logger.info("Store Loaded");
+		AEHandler.load(this);
 		PluginDescriptionFile pdfFile = this.getDescription();
 		this.logger.info(pdfFile.getName() + " Version " + pdfFile.getVersion() + " Has Been Enabled!");
 	}
@@ -125,7 +126,7 @@ public class ArmorEditor extends JavaPlugin
 						Store.displayStoreList(player, 1);
 						return true;
 					}
-					/*else if(args[0].equalsIgnoreCase("ls"))
+					else if(args[0].equalsIgnoreCase("ls"))
 					{
 						/*ScoreboardManager sm = Bukkit.getScoreboardManager();
 						Scoreboard sb = sm.getMainScoreboard();
@@ -136,8 +137,9 @@ public class ArmorEditor extends JavaPlugin
 						Score score = obj.getScore(player);
 						score.setScore(31);
 						player.setScoreboard(sb);
-						player.sendPluginMessage(this, "Test", "thing".getBytes());
-					}*/
+						player.sendPluginMessage(this, "Test", "thing".getBytes());*/
+						Bukkit.getMessenger().dispatchIncomingMessage(player, "Test", "thingy".getBytes());
+					}
 					else if(args[0].equalsIgnoreCase("repair"))
 					{
 						int cost;
