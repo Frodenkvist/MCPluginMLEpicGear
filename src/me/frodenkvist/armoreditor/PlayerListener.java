@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -112,10 +113,28 @@ public class PlayerListener implements Listener
 	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
 	{
 		if(!(event.getEntity() instanceof Player))
-		{
 			loc = event.getEntity().getLocation();
+		if(!(event.getDamager() instanceof Player))
 			return;
+		Player damager = (Player)event.getDamager();
+		
+		for(ItemStack is : damager.getInventory().getArmorContents())
+		{
+			if(is == null)
+				continue;
+			EpicArmor ea = Store.getEpicArmor(is);
+			if(ea == null)
+				continue;
+			ea.addDrinkPotionEffect(damager);
+			if(event.getEntity() instanceof LivingEntity)
+				ea.addSplashPotionEffect((LivingEntity)event.getEntity());
 		}
+		EpicWeapon ew = Store.getEpicWeapon(damager.getItemInHand());
+		if(ew == null)
+			return;
+		ew.addDrinkPotionEffect(damager);
+		if(event.getEntity() instanceof LivingEntity)
+			ew.addSplashPotionEffect((LivingEntity)event.getEntity());
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
@@ -133,7 +152,7 @@ public class PlayerListener implements Listener
 		for(ItemStack is : player.getInventory().getArmorContents())
 		{
 			if(isLeatherArmor(is))
-			{	
+			{
 				if(Math.random() <= 0.99)
 				{
 					is.setDurability((short) (is.getDurability()-1));

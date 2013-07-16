@@ -159,6 +159,23 @@ public class Store
 		return false;
 	}
 	
+	public static boolean isEpidWeapon(ItemStack is)
+	{
+		if(is.getItemMeta() == null)
+			return false;
+		List<String> lore = is.getItemMeta().getLore();
+		if(lore == null || lore.isEmpty())
+			return false;
+		for(EpicGear eg : inventory)
+		{
+			if(!(eg instanceof EpicWeapon))
+				continue;
+			if(eg.getCode().equalsIgnoreCase(lore.get(lore.size()-1)))
+				return true;
+		}
+		return false;
+	}
+	
 	public static EpicArmor getEpicArmor(ItemStack is)
 	{
 		if(is.getItemMeta() == null)
@@ -188,6 +205,24 @@ public class Store
 			//if(!(eg instanceof EpicArmor))
 			if(eg.getCode().equalsIgnoreCase(lore.get(lore.size()-1)))
 				return (EpicArmor)eg;
+		}
+		return null;
+	}
+	
+	public static EpicWeapon getEpicWeapon(ItemStack is)
+	{
+
+		if(is.getItemMeta() == null)
+			return null;
+		List<String> lore = is.getItemMeta().getLore();
+		if(lore == null || lore.isEmpty())
+			return null;
+		for(EpicGear eg : inventory)
+		{
+			if(!(eg instanceof EpicWeapon))
+				continue;
+			if(Namer.addChatColor(eg.getCode()).equalsIgnoreCase(Namer.addChatColor(lore.get(lore.size()-1))))
+				return (EpicWeapon)eg;
 		}
 		return null;
 	}
