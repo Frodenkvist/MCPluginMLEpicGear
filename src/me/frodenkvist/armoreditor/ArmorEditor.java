@@ -12,8 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Logger;
 
-//import net.milkbowl.vault.economy.Economy;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -27,7 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ArmorEditor extends JavaPlugin
@@ -36,11 +33,8 @@ public class ArmorEditor extends JavaPlugin
 	public final Logger logger = Logger.getLogger("Minecraft");
 	public static ArmorEditor plugin;
 	public final PlayerListener pl = new PlayerListener(this);
-//	public static Economy economy;
 	public boolean townyEnabled = false;
 	protected UpdateChecker uc;
-	
-	public boolean vaultEnabled = false;
 	
 	@Override
 	public void onDisable()
@@ -71,12 +65,6 @@ public class ArmorEditor extends JavaPlugin
 		{
 			townyEnabled = true;
 		}
-		if(pm.isPluginEnabled("Vault"))
-		{
-			vaultEnabled = true;
-			logger.info("Vault Found");
-			setupEconomy();
-		}
 		try
 		{
 			firstRun();
@@ -89,14 +77,7 @@ public class ArmorEditor extends JavaPlugin
 	    }
 		loadPlayers();
 		this.logger.info("Loading Store...");
-		/*EpicHelmet.start();
-		this.logger.info("Helmets Loaded");
-		EpicChestplate.start();
-		this.logger.info("Chestplates Loaded");
-		EpicLeggings.start();
-		this.logger.info("Leggings Loaded");
-		EpicBoots.start();
-		this.logger.info("Boots Loaded");*/
+		
 		Store.load(getConfig());
 		this.logger.info("Store Loaded");
 		AEHandler.load(this);
@@ -333,10 +314,6 @@ public class ArmorEditor extends JavaPlugin
 										}
 									}
 								}
-								else if(vaultEnabled)
-								{
-//									playerHave = economy.getBalance(player.getName());
-								}
 								if(playerHave >= cost)
 								{
 									if(getConfig().getInt("MoneyItem.ID") != -1)
@@ -364,10 +341,6 @@ public class ArmorEditor extends JavaPlugin
 												inv.addItem(money);
 											}
 										}
-									}
-									else if(vaultEnabled)
-									{
-//										economy.withdrawPlayer(player.getName(), cost);
 									}
 									final ItemStack is = AEHandler.getRepairToken();
 									getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable()
@@ -478,10 +451,6 @@ public class ArmorEditor extends JavaPlugin
 								}
 							}
 						}
-						else if(vaultEnabled)
-						{
-//							playerHave = economy.getBalance(player.getName());
-						}
 						if(playerHave >= cost)
 						{
 							if(getConfig().getInt("MoneyItem.ID") != -1)
@@ -509,10 +478,6 @@ public class ArmorEditor extends JavaPlugin
 										inv.addItem(money);
 									}
 								}
-							}
-							else if(vaultEnabled)
-							{
-//								economy.withdrawPlayer(player.getName(), cost);
 							}
 							ItemStack b = eg.getItem();
 							final ItemStack is = b.clone();
@@ -627,68 +592,6 @@ public class ArmorEditor extends JavaPlugin
 		return item;
 	}
 	
-	/*private int getRepairCost(String name)
-	{
-		int i = 1;
-		while(true)
-		{
-			if(!getConfig().contains("Weapons.Swords." + i))
-			{
-				--i;
-				break;
-			}
-			++i;
-		}	
-		for(int j=1;j<=i;++j)
-		{
-			if(getConfig().getString("Weapons.Swords." + j + ".DisplayName").equalsIgnoreCase(name))
-			{
-				return getConfig().getInt("Weapons.Swords." + j + ".RepairCost");
-			}
-		}
-		
-		
-		i = 1;
-		while(true)
-		{
-			if(!getConfig().contains("Weapons.Axes." + i))
-			{
-				--i;
-				break;
-			}
-			++i;
-		}	
-		for(int j=1;j<=i;++j)
-		{
-			if(getConfig().getString("Weapons.Axes." + j + ".DisplayName").equalsIgnoreCase(name))
-			{
-				return getConfig().getInt("Weapons.Axes." + j + ".RepairCost");
-			}
-		}
-		
-		
-		i = 1;
-		while(true)
-		{
-			if(!getConfig().contains("Weapons.Bows." + i))
-			{
-				--i;
-				break;
-			}
-			++i;
-		}	
-		for(int j=1;j<=i;++j)
-		{
-			if(getConfig().getString("Weapons.Bows." + j + ".DisplayName").equalsIgnoreCase(name))
-			{
-				return getConfig().getInt("Weapons.Bows." + j + ".RepairCost");
-			}
-		}
-		
-		
-		return -1;
-	}*/
-	
 	public void loadPlayers()
 	{
 		AEHandler.clearPlayers();
@@ -699,14 +602,4 @@ public class ArmorEditor extends JavaPlugin
 			AEHandler.addPlayer(new AEPlayer(p));
 		}
 	}
-	
-	private boolean setupEconomy()
-    {
-//        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-//       if (economyProvider != null) {
-//            economy = economyProvider.getProvider();
-//        }
-
-        return true;
-    }
 }
