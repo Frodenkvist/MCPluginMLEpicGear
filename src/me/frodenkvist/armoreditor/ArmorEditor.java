@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.economy.Economy;
+//import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,7 +36,7 @@ public class ArmorEditor extends JavaPlugin
 	public final Logger logger = Logger.getLogger("Minecraft");
 	public static ArmorEditor plugin;
 	public final PlayerListener pl = new PlayerListener(this);
-	public static Economy economy;
+//	public static Economy economy;
 	public boolean townyEnabled = false;
 	protected UpdateChecker uc;
 	
@@ -335,7 +335,7 @@ public class ArmorEditor extends JavaPlugin
 								}
 								else if(vaultEnabled)
 								{
-									playerHave = economy.getBalance(player.getName());
+//									playerHave = economy.getBalance(player.getName());
 								}
 								if(playerHave >= cost)
 								{
@@ -367,7 +367,7 @@ public class ArmorEditor extends JavaPlugin
 									}
 									else if(vaultEnabled)
 									{
-										economy.withdrawPlayer(player.getName(), cost);
+//										economy.withdrawPlayer(player.getName(), cost);
 									}
 									final ItemStack is = AEHandler.getRepairToken();
 									getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable()
@@ -480,7 +480,7 @@ public class ArmorEditor extends JavaPlugin
 						}
 						else if(vaultEnabled)
 						{
-							playerHave = economy.getBalance(player.getName());
+//							playerHave = economy.getBalance(player.getName());
 						}
 						if(playerHave >= cost)
 						{
@@ -512,7 +512,7 @@ public class ArmorEditor extends JavaPlugin
 							}
 							else if(vaultEnabled)
 							{
-								economy.withdrawPlayer(player.getName(), cost);
+//								economy.withdrawPlayer(player.getName(), cost);
 							}
 							ItemStack b = eg.getItem();
 							final ItemStack is = b.clone();
@@ -702,11 +702,11 @@ public class ArmorEditor extends JavaPlugin
 	
 	private boolean setupEconomy()
     {
-        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        if (economyProvider != null) {
-            economy = economyProvider.getProvider();
-        }
+//        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+//       if (economyProvider != null) {
+//            economy = economyProvider.getProvider();
+//        }
 
-        return (economy != null);
+        return true;
     }
 }
