@@ -543,10 +543,7 @@ public class ArmorEditor extends JavaPlugin
 			{
 				reloadConfig();
 				loadPlayers();
-				//EpicHelmet.start();
-				//EpicChestplate.start();
-				//EpicLeggings.start();
-				//EpicBoots.start();
+				
 				Store.load(getConfig());
 				sender.sendMessage(ChatColor.GREEN + "Epic Gear Reloaded!");
 			}

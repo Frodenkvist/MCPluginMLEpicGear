@@ -14,8 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -28,6 +26,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import Event.PBEntityDamageEntityEvent;
+import Event.PBEntityDamageEvent;
+
 public class PlayerListener implements Listener
 {
 	public ArmorEditor plugin;
@@ -36,7 +37,7 @@ public class PlayerListener implements Listener
 	private final int GREEN = 8375321;
 	private final int BLUE = 3368652;
 	private final int WHITE = 16777215;
-	
+
 	private final int PURPLE = 13421772;
 	private final int TEAL = 52394;
 	private final int PINK = 14357690;
@@ -108,8 +109,10 @@ public class PlayerListener implements Listener
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
-	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
+	public void onEntityDamageByEntityEvent(PBEntityDamageEntityEvent event)
 	{
+		if(event.isCancelled())
+			return;
 		if(!(event.getEntity() instanceof Player))
 			loc = event.getEntity().getLocation();
 		if(!(event.getDamager() instanceof Player))
@@ -135,9 +138,11 @@ public class PlayerListener implements Listener
 			ew.addSplashPotionEffect((LivingEntity)event.getEntity());
 	}
 	
-	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
-	public void onEntityDamageEvent(EntityDamageEvent event)
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onEntityDamageEvent(PBEntityDamageEvent event)
 	{
+		if(event.isCancelled())
+			return;
 		if(!(event.getEntity() instanceof Player))
 			return;
 		if(event.getCause().equals(DamageCause.DROWNING) || event.getCause().equals(DamageCause.FALL) || event.getCause().equals(DamageCause.FALLING_BLOCK)
