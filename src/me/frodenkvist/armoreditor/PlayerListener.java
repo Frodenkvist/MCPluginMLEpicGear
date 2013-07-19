@@ -147,7 +147,8 @@ public class PlayerListener implements Listener
 			return;
 		if(event.getCause().equals(DamageCause.DROWNING) || event.getCause().equals(DamageCause.FALL) || event.getCause().equals(DamageCause.FALLING_BLOCK)
 				|| event.getCause().equals(DamageCause.MAGIC) || event.getCause().equals(DamageCause.POISON) || event.getCause().equals(DamageCause.STARVATION)
-				|| event.getCause().equals(DamageCause.SUFFOCATION) || event.getCause().equals(DamageCause.WITHER) || event.getCause().equals(DamageCause.CONTACT))
+				|| event.getCause().equals(DamageCause.SUFFOCATION) || event.getCause().equals(DamageCause.WITHER) || event.getCause().equals(DamageCause.CONTACT)
+				|| event.getCause().equals(DamageCause.FIRE) || event.getCause().equals(DamageCause.LAVA) || event.getCause().equals(DamageCause.FIRE_TICK))
 			return;
 		Player player = (Player)event.getEntity();
 		if(player.getNoDamageTicks() > 10)
