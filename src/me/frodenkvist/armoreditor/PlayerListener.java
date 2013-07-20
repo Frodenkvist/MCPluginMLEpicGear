@@ -1,10 +1,5 @@
 package me.frodenkvist.armoreditor;
 
-import java.util.List;
-
-import me.ThaH3lper.com.Api.BossDeathEvent;
-
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,11 +12,7 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -167,8 +158,8 @@ public class PlayerListener implements Listener
 		}
 	}
 	
-	@EventHandler
-	public void onBossDeathEvent(BossDeathEvent event)
+//	@EventHandler
+/*	public void onBossDeathEvent(BossDeathEvent event)
 	{
 		String bossName = event.getBossName();
 		if(plugin.getConfig().contains("Drops." + bossName))
@@ -322,8 +313,7 @@ public class PlayerListener implements Listener
 				}	
 			}
 		}
-	}
-	
+	}*/
 	@EventHandler
 	public void onPlayerDeathEvent(PlayerDeathEvent event)
 	{

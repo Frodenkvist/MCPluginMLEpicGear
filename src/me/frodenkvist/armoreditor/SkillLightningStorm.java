@@ -408,7 +408,7 @@ public class SkillLightningStorm
                 			center.getWorld().strikeLightningEffect(le.getLocation());
                 			le.setHealth(le.getHealth()-6);
                 			le.setHealth(le.getHealth()/2);
-                			le.damage(0);
+                			le.damage(0f);
                 		}
                 	}
             	}

@@ -70,7 +70,7 @@ public class SkillExplosiveArrow
                 			//center.getWorld().strikeLightningEffect(le.getLocation());
                 			le.setHealth(le.getHealth()/4);
                 			le.setFireTicks(20*6);
-                			le.damage(0);
+                			le.damage(0f);
                 		}
                 	}
             	}
