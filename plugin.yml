@@ -1,7 +1,7 @@
 name: EpicGear
 main: me.frodenkvist.armoreditor.ArmorEditor
 version: 1.0.8
-depend: [PvpBalance]
+depend: [PVPBalance]
 softdepend: [EpicBoss, Towny, Vault]
 description: >
              Test. port plugin.
