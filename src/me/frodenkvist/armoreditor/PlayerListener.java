@@ -34,8 +34,7 @@ public class PlayerListener implements Listener
 	private final int PINK = 14357690;
 	private final int ORANGE = 16737843;
 	private final int YELLOW = 16776960;
-	
-	private Location loc;
+	//private Location loc;
 	
 	public PlayerListener(ArmorEditor instance)
 	{
@@ -104,8 +103,8 @@ public class PlayerListener implements Listener
 	{
 		if(event.isCancelled())
 			return;
-		if(!(event.getEntity() instanceof Player))
-			loc = event.getEntity().getLocation();
+		//if(!(event.getEntity() instanceof Player))
+		//	loc = event.getEntity().getLocation();
 		if(!(event.getDamager() instanceof Player))
 			return;
 		Player damager = (Player)event.getDamager();
