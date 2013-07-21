@@ -1,15 +1,13 @@
 package me.frodenkvist.armoreditor;
 
-import org.bukkit.ChatColor;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 
 public class AEPlayer
 {
 	private Player player;
-	private boolean creating;
-	private boolean createArmor1;
-	//private int killCounter = 0;
-	//private Arrow a;
+	private int killCounter = 0;
+	private Arrow a;
 	
 	public AEPlayer(Player p)
 	{
@@ -26,7 +24,7 @@ public class AEPlayer
 		player.sendMessage(message);
 	}
 	
-	public void createArmor1()
+	/*public void createArmor1()
 	{
 		creating = true;
 		createArmor1 = true;
@@ -51,9 +49,9 @@ public class AEPlayer
 	public boolean isCreatingArmor1()
 	{
 		return createArmor1;
-	}
+	}*/
 	
-	/*public void setKillCounter(int value)
+	public void setKillCounter(int value)
 	{
 		killCounter = value;
 	}
@@ -61,6 +59,11 @@ public class AEPlayer
 	public int getKillCounter()
 	{
 		return killCounter;
+	}
+	
+	public void addKillCounter(int value)
+	{
+		killCounter += value;
 	}
 	
 	public void setSpeciallArrow(Arrow a)
@@ -71,5 +74,5 @@ public class AEPlayer
 	public Arrow getSpeciallArrow()
 	{
 		return a;
-	}*/
+	}
 }

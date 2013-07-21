@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class AEHandler
@@ -43,6 +44,16 @@ public class AEHandler
 		for(AEPlayer p : aePlayers)
 		{
 			if(p.getPlayer().getName().equalsIgnoreCase(name))
+				return p;
+		}
+		return null;
+	}
+	
+	public static AEPlayer getPlayer(Player player)
+	{
+		for(AEPlayer p : aePlayers)
+		{
+			if(p.getPlayer().equals(player))
 				return p;
 		}
 		return null;

@@ -10,7 +10,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
@@ -19,10 +18,14 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import Event.PBEntityDamageEntityEvent;
 import Event.PBEntityDamageEvent;
+import Event.PBEntityDeathEvent;
+import PvpBalance.PvpHandler;
 
 public class PlayerListener implements Listener
 {
 	public ArmorEditor plugin;
+	private final int PLAYER_KILL_SCORE = 10;
+	private final int MOB_KILL_SCORE = 1;
 	private final int BLACK = 1644825;
 	private final int RED = 13388876;
 	private final int GREEN = 8375321;
@@ -137,22 +140,30 @@ public class PlayerListener implements Listener
 			return;
 		if(event.getCause().equals(DamageCause.DROWNING) || event.getCause().equals(DamageCause.FALL) || event.getCause().equals(DamageCause.FALLING_BLOCK)
 				|| event.getCause().equals(DamageCause.MAGIC) || event.getCause().equals(DamageCause.POISON) || event.getCause().equals(DamageCause.STARVATION)
-				|| event.getCause().equals(DamageCause.SUFFOCATION) || event.getCause().equals(DamageCause.WITHER) || event.getCause().equals(DamageCause.CONTACT)
-				|| event.getCause().equals(DamageCause.FIRE) || event.getCause().equals(DamageCause.LAVA) || event.getCause().equals(DamageCause.FIRE_TICK))
+				|| event.getCause().equals(DamageCause.SUFFOCATION) || event.getCause().equals(DamageCause.WITHER))
 			return;
 		Player player = (Player)event.getEntity();
 		if(player.getNoDamageTicks() > 10)
 			return;
+		if(event.getCause().equals(DamageCause.CONTACT) || event.getCause().equals(DamageCause.FIRE) || event.getCause().equals(DamageCause.LAVA)
+				|| event.getCause().equals(DamageCause.FIRE_TICK))
+		{
+			event.setCancelled(true);
+			player.damage(0D);
+			PvpHandler.getPvpPlayer(player).Damage(event.getDamage());
+			return;
+		}
 		for(ItemStack is : player.getInventory().getArmorContents())
 		{
 			if(isLeatherArmor(is))
 			{
-				if(Math.random() <= 0.99)
+				if(Math.random() > 0.999 || Math.random() > 0.999)
 				{
-					is.setDurability((short) (is.getDurability()-1));
-					if(is.getDurability() < 0)
-						is.setDurability((short)0);
+					continue;
 				}
+				is.setDurability((short) (is.getDurability()-1));
+				if(is.getDurability() < 0)
+					is.setDurability((short)0);
 			}
 		}
 	}
@@ -313,17 +324,39 @@ public class PlayerListener implements Listener
 			}
 		}
 	}*/
+	
 	@EventHandler
-	public void onPlayerDeathEvent(PlayerDeathEvent event)
+	public void onPBEntityDeathEvent(PBEntityDeathEvent event)
 	{
-		double chance = AEHandler.getDeathRemoveChance();
-		for(ItemStack is : event.getDrops())
+		LivingEntity le = event.getEntity();
+		if(le instanceof Player)
 		{
-			if(isArmor(is) || isWeapon(is))
+			Player killed = (Player)le;
+			AEPlayer aePlayer = AEHandler.getPlayer(killed);
+			aePlayer.setKillCounter(0);
+			
+			double chance = AEHandler.getDeathRemoveChance();
+			for(ItemStack is : event.getDrops())
 			{
-				if(Math.random() <= chance)
-					event.getDrops().remove(is);
+				if(isArmor(is) || isWeapon(is))
+				{
+					if(Math.random() <= chance)
+						event.getDrops().remove(is);
+				}
 			}
+			Player killer = killed.getKiller();
+			if(killer == null)
+				return;
+			AEPlayer aeKiller = AEHandler.getPlayer(killer);
+			aeKiller.addKillCounter(PLAYER_KILL_SCORE);
+		}
+		else
+		{
+			Player killer = le.getKiller();
+			if(killer == null)
+				return;
+			AEPlayer aeKiller = AEHandler.getPlayer(killer);
+			aeKiller.addKillCounter(MOB_KILL_SCORE);
 		}
 	}
 	
