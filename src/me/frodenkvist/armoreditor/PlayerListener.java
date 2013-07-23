@@ -106,6 +106,25 @@ public class PlayerListener implements Listener
 	{
 		if(event.isCancelled())
 			return;
+		if(event.getEntity() instanceof Player)
+		{
+			Player player = (Player)event.getEntity();
+			for(ItemStack is : player.getInventory().getArmorContents())
+			{
+				if(player.getNoDamageTicks() > 10)
+					break;
+				if(isLeatherArmor(is))
+				{
+					if(Math.random() > 0.999 || Math.random() > 0.999)
+					{
+						continue;
+					}
+					is.setDurability((short) (is.getDurability()-1));
+					if(is.getDurability() < 0)
+						is.setDurability((short)0);
+				}
+			}
+		}
 		//if(!(event.getEntity() instanceof Player))
 		//	loc = event.getEntity().getLocation();
 		if(!(event.getDamager() instanceof Player))
