@@ -332,8 +332,8 @@ public class PlayerListener implements Listener
 		if(le instanceof Player)
 		{
 			Player killed = (Player)le;
-			AEPlayer aePlayer = AEHandler.getPlayer(killed);
-			aePlayer.setKillCounter(0);
+			//AEPlayer aePlayer = AEHandler.getPlayer(killed);
+			//aePlayer.setKillCounter(0);
 			
 			double chance = AEHandler.getDeathRemoveChance();
 			for(ItemStack is : event.getDrops())
