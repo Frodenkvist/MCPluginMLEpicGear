@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
@@ -18,7 +19,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import Event.PBEntityDamageEntityEvent;
 import Event.PBEntityDamageEvent;
-import Event.PBEntityDeathEvent;
 import PvpBalance.PvpHandler;
 
 public class PlayerListener implements Listener
@@ -326,7 +326,7 @@ public class PlayerListener implements Listener
 	}*/
 	
 	@EventHandler
-	public void onPBEntityDeathEvent(PBEntityDeathEvent event)
+	public void onPBEntityDeathEvent(EntityDeathEvent event)
 	{
 		LivingEntity le = event.getEntity();
 		if(le instanceof Player)
