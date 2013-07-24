@@ -167,6 +167,9 @@ public class PlayerListener implements Listener
 		if(event.getCause().equals(DamageCause.CONTACT) || event.getCause().equals(DamageCause.FIRE) || event.getCause().equals(DamageCause.LAVA)
 				|| event.getCause().equals(DamageCause.FIRE_TICK))
 		{
+			event.setCancelled(true);
+			player.damage(0D);
+			PvpHandler.getPvpPlayer(player).Damage(event.getDamage());
 			return;
 		}
 		for(ItemStack is : player.getInventory().getArmorContents())
@@ -348,8 +351,8 @@ public class PlayerListener implements Listener
 		if(le instanceof Player)
 		{
 			Player killed = (Player)le;
-			//AEPlayer aePlayer = AEHandler.getPlayer(killed);
-			//aePlayer.setKillCounter(0);
+			AEPlayer aePlayer = AEHandler.getPlayer(killed);
+			aePlayer.setKillCounter(0);
 			
 			double chance = AEHandler.getDeathRemoveChance();
 			for(ItemStack is : event.getDrops())
