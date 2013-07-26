@@ -1,5 +1,6 @@
 package me.frodenkvist.armoreditor;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -351,8 +352,16 @@ public class PlayerListener implements Listener
 		if(le instanceof Player)
 		{
 			Player killed = (Player)le;
-			AEPlayer aePlayer = AEHandler.getPlayer(killed);
-			aePlayer.setKillCounter(0);
+			final AEPlayer aePlayer = AEHandler.getPlayer(killed);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					aePlayer.setKillCounter(0);
+				}
+			},1L);
+			
 			
 			double chance = AEHandler.getDeathRemoveChance();
 			for(ItemStack is : event.getDrops())
