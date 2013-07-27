@@ -1,6 +1,7 @@
 package me.frodenkvist.armoreditor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,9 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -385,6 +388,30 @@ public class PlayerListener implements Listener
 				return;
 			AEPlayer aeKiller = AEHandler.getPlayer(killer);
 			aeKiller.addKillCounter(MOB_KILL_SCORE);
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerInteractEvent(PlayerInteractEvent event)
+	{
+		if(!event.getAction().equals(Action.RIGHT_CLICK_AIR) && !event.getAction().equals(Action.RIGHT_CLICK_BLOCK))
+			return;
+		Player player = event.getPlayer();
+		if(!player.isSneaking())
+			return;
+		ItemStack is = player.getItemInHand();
+		if( is == null)
+			return;
+		EpicWeapon ew = Store.getEpicWeapon(is);
+		if(ew == null)
+			return;
+		if(ew.useSkill(AEHandler.getPlayer(player), player.getTargetBlock(null, 100).getLocation()))
+		{
+			player.sendMessage(ChatColor.GREEN + "Skill Used");
+		}
+		else
+		{
+			player.sendMessage(ChatColor.RED + "Skill Failed");
 		}
 	}
 	
