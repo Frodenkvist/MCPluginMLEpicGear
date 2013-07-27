@@ -170,7 +170,7 @@ public class PlayerListener implements Listener
 		{
 			event.setCancelled(true);
 			player.damage(0D);
-			PvpHandler.getPvpPlayer(player).Damage(event.getDamage());
+			PvpHandler.getPvpPlayer(player).damage(event.getDamage());
 			return;
 		}
 		for(ItemStack is : player.getInventory().getArmorContents())
