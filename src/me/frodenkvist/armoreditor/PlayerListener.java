@@ -158,6 +158,8 @@ public class PlayerListener implements Listener
 	{
 		if(event.isCancelled())
 			return;
+		if(event instanceof PBEntityDamageEntityEvent)
+			return;
 		if(!(event.getEntity() instanceof Player))
 			return;
 		if(event.getCause().equals(DamageCause.DROWNING) || event.getCause().equals(DamageCause.FALL) || event.getCause().equals(DamageCause.FALLING_BLOCK)
