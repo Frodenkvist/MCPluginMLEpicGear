@@ -23,7 +23,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import Event.PBEntityDamageEntityEvent;
 import Event.PBEntityDamageEvent;
 import Event.PBEntityDeathEvent;
-import PvpBalance.PvpHandler;
 
 public class PlayerListener implements Listener
 {
@@ -171,9 +170,9 @@ public class PlayerListener implements Listener
 		if(event.getCause().equals(DamageCause.CONTACT) || event.getCause().equals(DamageCause.FIRE) || event.getCause().equals(DamageCause.LAVA)
 				|| event.getCause().equals(DamageCause.FIRE_TICK))
 		{
-			event.setCancelled(true);
-			player.damage(0D);
-			PvpHandler.getPvpPlayer(player).damage(event.getDamage());
+			//event.setCancelled(true);
+			//player.damage(0D);
+			//PvpHandler.getPvpPlayer(player).damage(event.getDamage());
 			return;
 		}
 		for(ItemStack is : player.getInventory().getArmorContents())
