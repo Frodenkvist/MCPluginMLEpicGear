@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -379,16 +380,36 @@ public class PlayerListener implements Listener
 			Player killer = killed.getKiller();
 			if(killer == null)
 				return;
+			if(!Store.isEpidWeapon(killer.getItemInHand()))
+				return;
 			AEPlayer aeKiller = AEHandler.getPlayer(killer);
 			aeKiller.addKillCounter(PLAYER_KILL_SCORE);
+			if(aeKiller.getKillCounter() >= 50)
+			{
+				killer.sendMessage(ChatColor.BLUE +"["+ChatColor.LIGHT_PURPLE + "EpicWeapon" + ChatColor.BLUE + "]: " + ChatColor.YELLOW + 
+						"Your charge is " + ChatColor.GREEN + "FULL" + ChatColor.YELLOW + "TO USE" +ChatColor.GREEN +  " Shift-RightClick");
+			}
+			else
+				killer.sendMessage(ChatColor.BLUE +"[" + ChatColor.LIGHT_PURPLE + "EpicWeapon" + ChatColor.BLUE+"]: " + ChatColor.YELLOW +
+						"Your charge is " + ChatColor.RED + aeKiller.getKillCounter() +" / 50" + ChatColor.YELLOW + " kill more things to increase it!");
 		}
 		else
 		{
 			Player killer = le.getKiller();
 			if(killer == null)
 				return;
+			if(!Store.isEpidWeapon(killer.getItemInHand()))
+				return;
 			AEPlayer aeKiller = AEHandler.getPlayer(killer);
 			aeKiller.addKillCounter(MOB_KILL_SCORE);
+			if(aeKiller.getKillCounter() >= 50)
+			{
+				killer.sendMessage(ChatColor.BLUE +"["+ChatColor.LIGHT_PURPLE + "EpicWeapon" + ChatColor.BLUE + "]: " + ChatColor.YELLOW + 
+						"Your charge is " + ChatColor.GREEN + "FULL" + ChatColor.YELLOW + "TO USE" +ChatColor.GREEN +  " Shift-RightClick");
+			}
+			else
+				killer.sendMessage(ChatColor.BLUE +"[" + ChatColor.LIGHT_PURPLE + "EpicWeapon" + ChatColor.BLUE+"]: " + ChatColor.YELLOW +
+						"Your charge is " + ChatColor.RED + aeKiller.getKillCounter() +" / 50" + ChatColor.YELLOW + " kill more things to increase it!");
 		}
 	}
 	
@@ -406,13 +427,15 @@ public class PlayerListener implements Listener
 		EpicWeapon ew = Store.getEpicWeapon(is);
 		if(ew == null)
 			return;
-		if(ew.useSkill(AEHandler.getPlayer(player), player.getTargetBlock(null, 100).getLocation()))
+		if(ew.useSkill(AEHandler.getPlayer(player), player.getTargetBlock(null, 50).getLocation()))
 		{
-			player.sendMessage(ChatColor.GREEN + "Skill Used");
-		}
-		else
-		{
-			player.sendMessage(ChatColor.RED + "Skill Failed");
+			for(Entity en : player.getNearbyEntities(50, 50, 50))
+			{
+				if(!(en instanceof Player))
+					continue;
+				((Player)en).sendMessage(ChatColor.BLUE +"[" + ChatColor.LIGHT_PURPLE + "EpicWeapon" + ChatColor.BLUE+"]: " + ChatColor.YELLOW + player.getName() + " Has Casted " + ew.getSkillName());
+			}
+			player.sendMessage(ChatColor.BLUE +"[" + ChatColor.LIGHT_PURPLE + "EpicWeapon" + ChatColor.BLUE+"]: " + ChatColor.YELLOW + player.getName() + " Has Casted " + ew.getSkillName());
 		}
 	}
 	

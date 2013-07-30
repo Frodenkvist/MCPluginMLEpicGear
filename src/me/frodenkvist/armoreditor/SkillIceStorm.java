@@ -8,18 +8,16 @@ import org.bukkit.FireworkEffect.Type;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import PvpBalance.Damage;
 import PvpBalance.PvpHandler;
 
-public class SkillWitherStorm
+public class SkillIceStorm
 {
 	private Location center;
 	private Player player;
 	
-	public SkillWitherStorm(Location target, Player player)
+	public SkillIceStorm(Location target, Player player)
 	{
 		center = target;
 		this.player = player;
@@ -32,7 +30,7 @@ public class SkillWitherStorm
 		final Location start2 = start1.clone();
 		try
 		{
-			final FireworkEffect fe = FireworkEffect.builder().flicker(true).with(Type.BURST).withColor(Color.BLACK).trail(false).build();
+			final FireworkEffect fe = FireworkEffect.builder().flicker(true).with(Type.BURST).withColor(Color.AQUA).withColor(Color.BLUE).trail(false).build();
 			fplayer.playFirework(start1.getWorld(), start1, fe);
 			Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
 			{
@@ -391,38 +389,40 @@ public class SkillWitherStorm
         		continue;
         	if(en instanceof Player)
         	{
-        		if(((Player)en).equals(player))
+        		Player le = (Player)en;
+        		if(le.equals(player))
         			continue;
         	}
-        	//Bukkit.broadcastMessage("1");
         	LivingEntity le = (LivingEntity)en;
+        	//Bukkit.broadcastMessage("1");
         	Location loc = le.getLocation();
         	//Bukkit.broadcastMessage(center.getBlockX() + "");
         	if(center.getBlockX()+radius-loc.getBlockX() >= 0 && center.getBlockX()+radius-loc.getBlockX() < radius*2)
         	{
-        		//Bukkit.broadcastMessage("2");
-        		if(center.getBlockZ()+radius-loc.getBlockZ() >= 0 && center.getBlockZ()+radius-loc.getBlockZ() < radius*2)
-            	{
-        			//Bukkit.broadcastMessage("3");
-        			if(center.getBlockY()+height-loc.getBlockY() < center.getBlockY()+height)
-                	{
-        				//Bukkit.broadcastMessage("4");
-                		if(lengthSq((center.getBlockX()+radius-loc.getBlockX() + 1)*invRadiusX, (center.getBlockZ()+radius-loc.getBlockZ() + 1)*invRadiusZ) <= 1)
-                		{
-                			//Bukkit.broadcastMessage("5");
-                			//center.getWorld().strikeLightningEffect(le.getLocation());
-                			if(!Damage.canHit(le, player))
-                				continue;
-                			if(le instanceof Player)
-                				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
-                			else
-                				le.setHealth(le.getHealth()/2);
-                			le.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 20*6, 1));
-                			le.damage(0f);
-                		}
-                	}
-            	}
-        	}
+	        		//Bukkit.broadcastMessage("2");
+	        		if(center.getBlockZ()+radius-loc.getBlockZ() >= 0 && center.getBlockZ()+radius-loc.getBlockZ() < radius*2)
+	            	{
+	        			//Bukkit.broadcastMessage("3");
+	        			if(center.getBlockY()+height-loc.getBlockY() < center.getBlockY()+height)
+	                	{
+	        				//Bukkit.broadcastMessage("4");
+	                		if(lengthSq((center.getBlockX()+radius-loc.getBlockX() + 1)*invRadiusX, (center.getBlockZ()+radius-loc.getBlockZ() + 1)*invRadiusZ) <= 1)
+	                		{
+	                			//Bukkit.broadcastMessage("5");
+	                			//center.getWorld().strikeLightningEffect(le.getLocation());
+	                			if(!Damage.canHit(le, player))
+	                				continue;
+	                			if(le instanceof Player)
+	                				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
+	                			else
+	                				le.setHealth(le.getHealth()/2);
+	                			le.setFireTicks(20*6);
+	                			le.damage(0f);
+	                		}
+	                	}
+	            	}
+	        	}
+        	
         }
 	}
 	

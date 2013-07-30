@@ -7,6 +7,8 @@ import org.bukkit.FireworkEffect.Type;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import PvpBalance.PvpHandler;
+
 public class SkillHealingBurst
 {
 	private Location center;
@@ -68,7 +70,7 @@ public class SkillHealingBurst
                 		{
                 			//Bukkit.broadcastMessage("5");
                 			//center.getWorld().strikeLightningEffect(le.getLocation());
-                			le.setHealth(le.getMaxHealth());
+                			PvpHandler.getPvpPlayer(le).sethealth(le.getMaxHealth()); //TODO FIX TO ONLY PARTY MEMBERS
                 			//le.setFireTicks(20*6);
                 			//le.damage(0);
                 		}

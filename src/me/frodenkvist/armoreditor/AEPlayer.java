@@ -7,6 +7,7 @@ public class AEPlayer
 {
 	private Player player;
 	private int killCounter = 0;
+	private final int MAX_KILLCOUNTER = 50;
 	private Arrow a;
 	
 	public AEPlayer(Player p)
@@ -54,6 +55,8 @@ public class AEPlayer
 	public void setKillCounter(int value)
 	{
 		killCounter = value;
+		if(MAX_KILLCOUNTER > killCounter)
+			killCounter = MAX_KILLCOUNTER;
 	}
 	
 	public int getKillCounter()
@@ -64,6 +67,8 @@ public class AEPlayer
 	public void addKillCounter(int value)
 	{
 		killCounter += value;
+		if(MAX_KILLCOUNTER > killCounter)
+			killCounter = MAX_KILLCOUNTER;
 	}
 	
 	public void setSpeciallArrow(Arrow a)

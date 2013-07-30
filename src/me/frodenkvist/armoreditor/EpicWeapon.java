@@ -198,11 +198,44 @@ public class EpicWeapon extends EpicGear
 		{
 			new SkillWitherStorm(target, player.getPlayer()).run();
 		}
+		else if(split[0].equalsIgnoreCase("icestorm"))
+		{
+			new SkillIceStorm(target, player.getPlayer()).run();
+		}
 		else
 		{
 			return false;
 		}
 		player.setKillCounter(player.getKillCounter() - Integer.valueOf(split[1]));
 		return true;
+	}
+	
+	public String getSkillName()
+	{
+		String[] split = skill.split(",");
+		if(split[0].equalsIgnoreCase("firestorm"))
+		{
+			return "firestorm";
+		}
+		else if(split[0].equalsIgnoreCase("healingburst"))
+		{
+			return "healingburst";
+		}
+		else if(split[0].equalsIgnoreCase("lightningstorm"))
+		{
+			return "lightningstorm";
+		}
+		else if(split[0].equalsIgnoreCase("witherstorm"))
+		{
+			return "witherstorm";
+		}
+		else if(split[0].equalsIgnoreCase("icestorm"))
+		{
+			return "icestorm";
+		}
+		else
+		{
+			return null;
+		}
 	}
 }

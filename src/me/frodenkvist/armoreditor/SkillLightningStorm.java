@@ -9,6 +9,9 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import PvpBalance.Damage;
+import PvpBalance.PvpHandler;
+
 public class SkillLightningStorm
 {
 	private Location center;
@@ -406,8 +409,12 @@ public class SkillLightningStorm
                 		{
                 			//Bukkit.broadcastMessage("5");
                 			center.getWorld().strikeLightningEffect(le.getLocation());
-                			le.setHealth(le.getHealth()-6);
-                			le.setHealth(le.getHealth()/2);
+                			if(!Damage.canHit(le, player))
+                				continue;
+                			if(le instanceof Player)
+                				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
+                			else
+                				le.setHealth(le.getHealth()/2);
                 			le.damage(0f);
                 		}
                 	}
