@@ -358,15 +358,6 @@ public class PlayerListener implements Listener
 		{
 			Player killed = (Player)le;
 			final AEPlayer aePlayer = AEHandler.getPlayer(killed);
-			Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					aePlayer.setKillCounter(0);
-				}
-			},1L);
-			
 			
 			double chance = AEHandler.getDeathRemoveChance();
 			for(ItemStack is : event.getDrops())
@@ -380,7 +371,7 @@ public class PlayerListener implements Listener
 			Player killer = killed.getKiller();
 			if(killer == null)
 				return;
-			if(!Store.isEpidWeapon(killer.getItemInHand()))
+			if(!Store.isEpicWeapon(killer.getItemInHand()))
 				return;
 			AEPlayer aeKiller = AEHandler.getPlayer(killer);
 			aeKiller.addKillCounter(PLAYER_KILL_SCORE);
@@ -392,13 +383,28 @@ public class PlayerListener implements Listener
 			else
 				killer.sendMessage(ChatColor.BLUE +"[" + ChatColor.LIGHT_PURPLE + "EpicWeapon" + ChatColor.BLUE+"]: " + ChatColor.YELLOW +
 						"Your charge is " + ChatColor.RED + aeKiller.getKillCounter() +" / 50" + ChatColor.YELLOW + " kill more things to increase it!");
+			Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					try
+					{
+						aePlayer.setKillCounter(0);
+					}
+					catch(Exception e)
+					{
+							
+					}
+				}
+			},1L);
 		}
 		else
 		{
 			Player killer = le.getKiller();
 			if(killer == null)
 				return;
-			if(!Store.isEpidWeapon(killer.getItemInHand()))
+			if(!Store.isEpicWeapon(killer.getItemInHand()))
 				return;
 			AEPlayer aeKiller = AEHandler.getPlayer(killer);
 			aeKiller.addKillCounter(MOB_KILL_SCORE);

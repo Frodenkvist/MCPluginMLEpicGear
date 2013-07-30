@@ -159,7 +159,7 @@ public class Store
 		return false;
 	}
 	
-	public static boolean isEpidWeapon(ItemStack is)
+	public static boolean isEpicWeapon(ItemStack is)
 	{
 		if(is.getItemMeta() == null)
 			return false;
@@ -170,7 +170,7 @@ public class Store
 		{
 			if(!(eg instanceof EpicWeapon))
 				continue;
-			if(eg.getCode().equalsIgnoreCase(lore.get(lore.size()-1)))
+			if(Namer.addChatColor(eg.getCode()).equalsIgnoreCase(Namer.addChatColor(lore.get(lore.size()-1))))
 				return true;
 		}
 		return false;

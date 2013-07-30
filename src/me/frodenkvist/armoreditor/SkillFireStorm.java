@@ -32,7 +32,7 @@ public class SkillFireStorm
 		final Location start2 = start1.clone();
 		try
 		{
-			final FireworkEffect fe = FireworkEffect.builder().flicker(true).with(Type.BURST).withColor(Color.RED).trail(false).build();
+			final FireworkEffect fe = FireworkEffect.builder().flicker(true).with(Type.BURST).withColor(Color.RED).withColor(Color.ORANGE).trail(false).build();
 			fplayer.playFirework(start1.getWorld(), start1, fe);
 			Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
 			{

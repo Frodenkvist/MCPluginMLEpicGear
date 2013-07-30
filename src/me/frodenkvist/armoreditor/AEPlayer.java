@@ -55,7 +55,7 @@ public class AEPlayer
 	public void setKillCounter(int value)
 	{
 		killCounter = value;
-		if(MAX_KILLCOUNTER > killCounter)
+		if(MAX_KILLCOUNTER < killCounter)
 			killCounter = MAX_KILLCOUNTER;
 	}
 	
@@ -67,7 +67,7 @@ public class AEPlayer
 	public void addKillCounter(int value)
 	{
 		killCounter += value;
-		if(MAX_KILLCOUNTER > killCounter)
+		if(MAX_KILLCOUNTER < killCounter)
 			killCounter = MAX_KILLCOUNTER;
 	}
 	
