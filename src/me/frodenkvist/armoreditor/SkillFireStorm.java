@@ -8,8 +8,6 @@ import org.bukkit.FireworkEffect.Type;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import PvpBalance.Damage;
 import PvpBalance.PvpHandler;
@@ -418,7 +416,7 @@ public class SkillFireStorm
 	                				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
 	                			else
 	                				le.setHealth(le.getHealth()/2);
-	                			le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*10, 1));
+	                			le.setFireTicks(20*6);
 	                			le.damage(0f);
 	                		}
 	                	}

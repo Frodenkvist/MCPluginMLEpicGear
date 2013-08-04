@@ -188,7 +188,7 @@ public class EpicWeapon extends EpicGear
 		}
 		else if(split[0].equalsIgnoreCase("healingburst"))
 		{
-			new SkillHealingBurst(target).run();
+			new SkillHealingBurst(target, player.getPlayer()).run();
 		}
 		else if(split[0].equalsIgnoreCase("lightningstorm"))
 		{

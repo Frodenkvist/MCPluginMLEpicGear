@@ -16,7 +16,9 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -213,7 +215,7 @@ public class PlayerListener implements Listener
 				}
 			}
 		}
-	}
+	}*/
 	
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent event)
@@ -236,7 +238,7 @@ public class PlayerListener implements Listener
 	public void onPlayerQuitEvent(PlayerQuitEvent event)
 	{
 		AEHandler.removePlayer(event.getPlayer().getName());
-	}
+	}/*
 	
 	@EventHandler
 	public void onInventoryClickEvent(InventoryClickEvent event)
@@ -360,13 +362,20 @@ public class PlayerListener implements Listener
 			final AEPlayer aePlayer = AEHandler.getPlayer(killed);
 			
 			double chance = AEHandler.getDeathRemoveChance();
-			for(ItemStack is : event.getDrops())
+			try
 			{
-				if(isArmor(is) || isWeapon(is))
+				for(ItemStack is : event.getDrops())
 				{
-					if(Math.random() <= chance)
-						event.getDrops().remove(is);
+					if(isArmor(is) || isWeapon(is))
+					{
+						if(Math.random() <= chance)
+							event.getDrops().remove(is);
+					}
 				}
+			}
+			catch(Exception e)
+			{
+				
 			}
 			Player killer = killed.getKiller();
 			if(killer == null)
@@ -394,7 +403,7 @@ public class PlayerListener implements Listener
 					}
 					catch(Exception e)
 					{
-							
+						
 					}
 				}
 			},1L);

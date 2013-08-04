@@ -13,9 +13,9 @@ public class SkillHealingBurst
 {
 	private Location center;
 	
-	public SkillHealingBurst(Location target)
+	public SkillHealingBurst(Location target, Player player)
 	{
-		center = target;
+		center = player.getLocation();
 	}
 	
 	public void run()
@@ -25,7 +25,7 @@ public class SkillHealingBurst
 		try
 		{
 			fplayer.playFirework(center.getWorld(), center, fe);
-			strikeLigtning(center,15,7);
+			strikeLigtning(center,4,4);
 		}
 		catch (Exception e)
 		{
@@ -70,7 +70,7 @@ public class SkillHealingBurst
                 		{
                 			//Bukkit.broadcastMessage("5");
                 			//center.getWorld().strikeLightningEffect(le.getLocation());
-                			PvpHandler.getPvpPlayer(le).sethealth(le.getMaxHealth()); //TODO FIX TO ONLY PARTY MEMBERS
+                			PvpHandler.getPvpPlayer(le).sethealth(PvpHandler.getPvpPlayer(le).getMaxHealth()); //TODO FIX TO ONLY PARTY MEMBERS
                 			//le.setFireTicks(20*6);
                 			//le.damage(0);
                 		}
