@@ -1,5 +1,7 @@
 package me.frodenkvist.armoreditor;
 
+import java.util.Iterator;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -364,18 +366,20 @@ public class PlayerListener implements Listener
 			double chance = AEHandler.getDeathRemoveChance();
 			try
 			{
-				for(ItemStack is : event.getDrops())
+				Iterator<ItemStack> itr = event.getDrops().iterator();
+				while(itr.hasNext())
 				{
+					ItemStack is = (ItemStack)itr.next();
 					if(isArmor(is) || isWeapon(is))
 					{
 						if(Math.random() <= chance)
-							event.getDrops().remove(is);
+							itr.remove();
 					}
 				}
 			}
 			catch(Exception e)
 			{
-				
+				e.printStackTrace();
 			}
 			Player killer = killed.getKiller();
 			if(killer == null)
