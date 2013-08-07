@@ -12,19 +12,16 @@ import org.bukkit.entity.Player;
 import PvpBalance.Damage;
 import PvpBalance.PvpHandler;
 
-public class SkillLightningStorm
+public class SkillLightningStorm extends Skill
 {
-	private Location center;
-	private Player player;
-	
-	public SkillLightningStorm(Location target, Player player)
+	public SkillLightningStorm(int cost)
 	{
-		center = target;
-		this.player = player;
+		super(cost);
 	}
 	
-	public void run()
+	public boolean run(final Player caster)
 	{
+		final Location center = caster.getTargetBlock(null, 50).getLocation();
 		final FireworkEffectPlayer fplayer = new FireworkEffectPlayer();
 		final Location start1 = new Location(center.getWorld(),center.getX()+7,center.getY()+15,center.getZ());
 		final Location start2 = start1.clone();
@@ -217,7 +214,7 @@ public class SkillLightningStorm
 																																																																@Override
 																																																																public void run()
 																																																																{
-																																																																	strikeLigtning(center,15,7);
+																																																																	strikeLigtning(center,15,7,caster);
 																																																																}
 																																																															},(long)1.65);
 																																																														}
@@ -365,9 +362,10 @@ public class SkillLightningStorm
 		{
 			e.printStackTrace();
 		}
+		return true;
 	}
 	
-	public void strikeLigtning(Location center, int height, int radius)
+	public void strikeLigtning(Location center, int height, int radius, Player caster)
 	{
 		int radiusX = radius;
 		int radiusZ = radius;
@@ -389,7 +387,7 @@ public class SkillLightningStorm
         		continue;
         	if(en instanceof Player)
         	{
-        		if(((Player)en).equals(player))
+        		if(((Player)en).equals(caster))
         			continue;
         	}
         	//Bukkit.broadcastMessage("1");
@@ -409,7 +407,7 @@ public class SkillLightningStorm
                 		{
                 			//Bukkit.broadcastMessage("5");
                 			center.getWorld().strikeLightningEffect(le.getLocation());
-                			if(!Damage.canHit(le, player))
+                			if(!Damage.canHit(le, caster))
                 				continue;
                 			if(le instanceof Player)
                 				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
@@ -421,6 +419,11 @@ public class SkillLightningStorm
             	}
         	}
         }
+	}
+	
+	public String getName()
+	{
+		return "Lightning Storm";
 	}
 	
 	private final double lengthSq(double x, double z)

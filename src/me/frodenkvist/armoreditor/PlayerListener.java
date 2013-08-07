@@ -5,7 +5,6 @@ import java.util.Iterator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -446,7 +445,7 @@ public class PlayerListener implements Listener
 		EpicWeapon ew = Store.getEpicWeapon(is);
 		if(ew == null)
 			return;
-		if(ew.useSkill(AEHandler.getPlayer(player), player.getTargetBlock(null, 50).getLocation()))
+		if(ew.useSkill(AEHandler.getPlayer(player)))
 		{
 			for(Entity en : player.getNearbyEntities(50, 50, 50))
 			{
@@ -542,7 +541,7 @@ public class PlayerListener implements Listener
 		}
 	}
 	
-	public void activateSkill(String skill, Location target, Player player)
+	/*public void activateSkill(String skill, Location target, Player player)
 	{
 		if(skill.equalsIgnoreCase("lightningstorm"))
 		{
@@ -556,7 +555,7 @@ public class PlayerListener implements Listener
 		{
 			new SkillWitherStorm(target,player).run();
 		}
-	}
+	}*/
 	
 	public String getColorName(ItemStack is)
 	{

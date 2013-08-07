@@ -12,19 +12,16 @@ import org.bukkit.entity.Player;
 import PvpBalance.Damage;
 import PvpBalance.PvpHandler;
 
-public class SkillFireStorm
-{
-	private Location center;
-	private Player player;
-	
-	public SkillFireStorm(Location target, Player player)
+public class SkillFireStorm extends Skill
+{	
+	public SkillFireStorm(int cost)
 	{
-		center = target;
-		this.player = player;
+		super(cost);
 	}
 	
-	public void run()
+	public boolean run(final Player caster)
 	{
+		final Location center = caster.getTargetBlock(null, 50).getLocation();
 		final FireworkEffectPlayer fplayer = new FireworkEffectPlayer();
 		final Location start1 = new Location(center.getWorld(),center.getX()+7,center.getY()+1,center.getZ());
 		final Location start2 = start1.clone();
@@ -217,7 +214,7 @@ public class SkillFireStorm
 																																																																@Override
 																																																																public void run()
 																																																																{
-																																																																	strikeLigtning(center,15,7);
+																																																																	strikeLigtning(center,15,7,caster);
 																																																																}
 																																																															},(long)1.65);
 																																																														}
@@ -365,9 +362,10 @@ public class SkillFireStorm
 		{
 			e.printStackTrace();
 		}
+		return true;
 	}
 	
-	public void strikeLigtning(Location center, int height, int radius)
+	public void strikeLigtning(Location center, int height, int radius, Player caster)
 	{
 		int radiusX = radius;
 		int radiusZ = radius;
@@ -390,7 +388,7 @@ public class SkillFireStorm
         	if(en instanceof Player)
         	{
         		Player le = (Player)en;
-        		if(le.equals(player))
+        		if(le.equals(caster))
         			continue;
         	}
         	LivingEntity le = (LivingEntity)en;
@@ -410,7 +408,7 @@ public class SkillFireStorm
 	                		{
 	                			//Bukkit.broadcastMessage("5");
 	                			//center.getWorld().strikeLightningEffect(le.getLocation());
-	                			if(!Damage.canHit(le, player))
+	                			if(!Damage.canHit(le, caster))
 	                				continue;
 	                			if(le instanceof Player)
 	                				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
@@ -424,6 +422,11 @@ public class SkillFireStorm
 	        	}
         	
         }
+	}
+	
+	public String getName()
+	{
+		return "Fire Storm";
 	}
 	
 	private final double lengthSq(double x, double z)

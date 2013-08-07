@@ -9,28 +9,28 @@ import org.bukkit.entity.Player;
 
 import PvpBalance.PvpHandler;
 
-public class SkillHealingBurst
+public class SkillHealingBurst extends Skill
 {
-	private Location center;
-	
-	public SkillHealingBurst(Location target, Player player)
+	public SkillHealingBurst(int cost)
 	{
-		center = player.getLocation();
+		super(cost);
 	}
 	
-	public void run()
+	public boolean run(Player caster)
 	{
+		Location center = caster.getLocation();
 		final FireworkEffectPlayer fplayer = new FireworkEffectPlayer();
 		FireworkEffect fe = FireworkEffect.builder().flicker(true).with(Type.BALL_LARGE).withColor(Color.fromRGB(0, 204, 0)).trail(false).build();
 		try
 		{
 			fplayer.playFirework(center.getWorld(), center, fe);
-			strikeLigtning(center,4,4);
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			return false;
 		}
+		strikeLigtning(center,4,4);
+		return true;
 	}
 	
 	public void strikeLigtning(Location center, int height, int radius)
@@ -78,6 +78,11 @@ public class SkillHealingBurst
             	}
         	}
         }
+	}
+	
+	public String getName()
+	{
+		return "Healing Burst";
 	}
 	
 	private final double lengthSq(double x, double z)

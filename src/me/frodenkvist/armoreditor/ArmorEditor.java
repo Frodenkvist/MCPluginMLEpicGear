@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -56,7 +55,7 @@ public class ArmorEditor extends JavaPlugin
 				logger.info("Get The New Version At: " + uc.getLink());
 			}
 		}
-		Bukkit.getMessenger().registerOutgoingPluginChannel(this, "Test");
+		//Bukkit.getMessenger().registerOutgoingPluginChannel(this, "Test");
 		configFile = new File(getDataFolder(), "config.yml");
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this.pl, this);
@@ -99,15 +98,21 @@ public class ArmorEditor extends JavaPlugin
 						reloadConfig();
 						loadPlayers();
 						Store.load(getConfig());
+						AEHandler.load(this);
 						player.sendMessage(ChatColor.GREEN + "Epic Gear Reloaded!");
 						return true;
+					}
+					else if(player.hasPermission("epicgear.admin") && args[0].equalsIgnoreCase("maxpoints"))
+					{
+						AEHandler.getPlayer(player).setKillCounter(AEPlayer.MAX_KILLCOUNTER);
+						player.sendMessage(ChatColor.GREEN + "You Have Recived The Maximum Amount Of Points");
 					}
 					else if(args[0].equalsIgnoreCase("store") && (player.hasPermission("epicgear.admin") || player.hasPermission("epicgear.store")))
 					{
 						Store.displayStoreList(player, 1);
 						return true;
 					}
-					else if(args[0].equalsIgnoreCase("ls"))
+					/*else if(args[0].equalsIgnoreCase("ls"))
 					{
 						/*ScoreboardManager sm = Bukkit.getScoreboardManager();
 						Scoreboard sb = sm.getMainScoreboard();
@@ -118,9 +123,9 @@ public class ArmorEditor extends JavaPlugin
 						Score score = obj.getScore(player);
 						score.setScore(31);
 						player.setScoreboard(sb);
-						player.sendPluginMessage(this, "Test", "thing".getBytes());*/
+						player.sendPluginMessage(this, "Test", "thing".getBytes());
 						Bukkit.getMessenger().dispatchIncomingMessage(player, "Test", "thingy".getBytes());
-					}
+					}*/
 					else if(args[0].equalsIgnoreCase("repair"))
 					{
 						int cost;

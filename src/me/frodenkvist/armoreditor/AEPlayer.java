@@ -7,7 +7,7 @@ public class AEPlayer
 {
 	private Player player;
 	private int killCounter = 0;
-	private final int MAX_KILLCOUNTER = 50;
+	public final static int MAX_KILLCOUNTER = 50;
 	private Arrow a;
 	
 	public AEPlayer(Player p)

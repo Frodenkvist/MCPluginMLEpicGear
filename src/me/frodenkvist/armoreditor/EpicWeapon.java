@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
@@ -16,7 +15,7 @@ public class EpicWeapon extends EpicGear
 {
 	private List<String> ench = new ArrayList<String>();
 	private String material = new String();
-	private String skill;
+	private Skill skill;
 
 	@Override
 	public boolean load(ConfigurationSection cs, String material, Color color)
@@ -57,7 +56,7 @@ public class EpicWeapon extends EpicGear
 		durability = cs.getDouble(material + "s" + "." + color.asRGB() + ".Durability");
 		info = cs.getStringList(material + "s" + "." + color.asRGB() + ".Info");
 		repairCost = cs.getInt(material + "s" + "." + color.asRGB() + ".RepairCost");
-		skill = cs.getString(material + "s" + "." + color.asRGB() + ".Skill");
+		skill = getSkill(cs.getString(material + "s" + "." + color.asRGB() + ".Skill"));
 		
 		return true;
 	}
@@ -175,63 +174,57 @@ public class EpicWeapon extends EpicGear
 		return is;
 	}
 	
-	public boolean useSkill(AEPlayer player, Location target)
+	public boolean useSkill(AEPlayer player)
 	{
 		if(skill == null)
 			return false;
-		String[] split = skill.split(",");
-		if(player.getKillCounter() < Integer.valueOf(split[1]))
+		if(player.getKillCounter() < skill.getCost())
 			return false;
-		if(split[0].equalsIgnoreCase("firestorm"))
-		{
-			new SkillFireStorm(target, player.getPlayer()).run();
-		}
-		else if(split[0].equalsIgnoreCase("healingburst"))
-		{
-			new SkillHealingBurst(target, player.getPlayer()).run();
-		}
-		else if(split[0].equalsIgnoreCase("lightningstorm"))
-		{
-			new SkillLightningStorm(target, player.getPlayer()).run();
-		}
-		else if(split[0].equalsIgnoreCase("witherstorm"))
-		{
-			new SkillWitherStorm(target, player.getPlayer()).run();
-		}
-		else if(split[0].equalsIgnoreCase("icestorm"))
-		{
-			new SkillIceStorm(target, player.getPlayer()).run();
-		}
-		else
-		{
+		if(!skill.run(player.getPlayer()))
 			return false;
-		}
-		player.setKillCounter(player.getKillCounter() - Integer.valueOf(split[1]));
+		player.setKillCounter(player.getKillCounter() - skill.getCost());
 		return true;
 	}
 	
 	public String getSkillName()
 	{
-		String[] split = skill.split(",");
+		return skill.getName();
+	}
+	
+	private Skill getSkill(String name)
+	{
+		String[] split = name.split(",");
 		if(split[0].equalsIgnoreCase("firestorm"))
 		{
-			return "firestorm";
+			return new SkillFireStorm(Integer.valueOf(split[1]));
 		}
 		else if(split[0].equalsIgnoreCase("healingburst"))
 		{
-			return "healingburst";
+			return new SkillHealingBurst(Integer.valueOf(split[1]));
 		}
 		else if(split[0].equalsIgnoreCase("lightningstorm"))
 		{
-			return "lightningstorm";
+			return new SkillLightningStorm(Integer.valueOf(split[1]));
 		}
 		else if(split[0].equalsIgnoreCase("witherstorm"))
 		{
-			return "witherstorm";
+			return new SkillWitherStorm(Integer.valueOf(split[1]));
 		}
 		else if(split[0].equalsIgnoreCase("icestorm"))
 		{
-			return "icestorm";
+			return new SkillIceStorm(Integer.valueOf(split[1]));
+		}
+		else if(split[0].equalsIgnoreCase("forcepull"))
+		{
+			return new SkillForcePull(Integer.valueOf(split[1]));
+		}
+		else if(split[0].equalsIgnoreCase("clash"))
+		{
+			return new SkillClash(Integer.valueOf(split[1]));
+		}
+		else if(split[0].equalsIgnoreCase("execution"))
+		{
+			return new SkillExecution(Integer.valueOf(split[1]));
 		}
 		else
 		{
