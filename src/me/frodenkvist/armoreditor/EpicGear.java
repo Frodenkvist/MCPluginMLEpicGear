@@ -26,6 +26,8 @@ public abstract class EpicGear
 	protected double durability = -1D;
 	protected List<String> info = new ArrayList<String>();
 	protected int repairCost;
+	protected boolean dontDropOnDeath;
+	protected int decay = -1;
 	
 	public abstract boolean load(ConfigurationSection cs, String type, Color color);
 	
@@ -107,6 +109,21 @@ public abstract class EpicGear
 	public int getRepairCost()
 	{
 		return repairCost;
+	}
+	
+	public double getDurability()
+	{
+		return durability;
+	}
+	
+	public void setDontDropOnDeath(boolean value)
+	{
+		dontDropOnDeath = value;
+	}
+	
+	public boolean getDontDropOnDeath()
+	{
+		return dontDropOnDeath;
 	}
 	
 	public void displayInfo(Player player)

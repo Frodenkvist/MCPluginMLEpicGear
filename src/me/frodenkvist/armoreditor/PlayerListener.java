@@ -1,6 +1,9 @@
 package me.frodenkvist.armoreditor;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,9 +17,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -27,6 +34,8 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import Event.PBEntityDamageEntityEvent;
 import Event.PBEntityDamageEvent;
 import Event.PBEntityDeathEvent;
+import PvpBalance.PvpHandler;
+import Util.ItemUtils;
 
 public class PlayerListener implements Listener
 {
@@ -109,7 +118,7 @@ public class PlayerListener implements Listener
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
-	public void onEntityDamageByEntityEvent(PBEntityDamageEntityEvent event)
+	public void onPBEntityDamageByEntityEvent(PBEntityDamageEntityEvent event)
 	{
 		if(event.isCancelled())
 			return;
@@ -118,18 +127,38 @@ public class PlayerListener implements Listener
 			Player player = (Player)event.getEntity();
 			for(ItemStack is : player.getInventory().getArmorContents())
 			{
+				Store.changeLore(is);
 				if(player.getNoDamageTicks() > 10)
 					break;
-				if(isLeatherArmor(is))
+				EpicGear eg = Store.getEpicGear(is);
+				if(eg == null)
+					continue;
+				double dur = Store.getDurability(is);
+				if(dur == -1)
 				{
-					if(Math.random() > 0.999 || Math.random() > 0.999)
+					dur = eg.getDurability();
+					--dur;
+					List<String> list = new ArrayList<String>();
+					list.add("&kdur:" + dur);
+					Iterator<String> itr = ItemUtils.getLore(is).iterator();
+					while(itr.hasNext())
 					{
-						continue;
+						list.add(itr.next());
 					}
-					is.setDurability((short) (is.getDurability()-1));
-					if(is.getDurability() < 0)
-						is.setDurability((short)0);
+					ItemUtils.setLore(is, list);
+					Store.setDurability(is, dur);
+					continue;
 				}
+				--dur;
+				if(dur <= 0)
+				{
+					is.setDurability(is.getType().getMaxDurability());
+					continue;
+				}
+				if(dur > eg.getDurability())
+					Store.setDurability(is, eg.getDurability());
+				else
+					Store.setDurability(is, dur);
 			}
 		}
 		//if(!(event.getEntity() instanceof Player))
@@ -140,25 +169,166 @@ public class PlayerListener implements Listener
 		
 		for(ItemStack is : damager.getInventory().getArmorContents())
 		{
-			if(is == null)
+			Store.changeLore(is);
+			EpicGear eg = Store.getEpicGear(is);
+			if(eg == null)
 				continue;
-			EpicArmor ea = Store.getEpicArmor(is);
-			if(ea == null)
+			
+			double dur = Store.getDurability(is);
+			if(dur == -1)
+			{
+				dur = eg.getDurability();
+				--dur;
+				List<String> list = new ArrayList<String>();
+				list.add("&kdur:" + dur);
+				Iterator<String> itr = ItemUtils.getLore(is).iterator();
+				while(itr.hasNext())
+				{
+					list.add(itr.next());
+				}
+				ItemUtils.setLore(is, list);
+				Store.setDurability(is, dur);
 				continue;
-			ea.addDrinkPotionEffect(damager);
-			if(event.getEntity() instanceof LivingEntity)
-				ea.addSplashPotionEffect((LivingEntity)event.getEntity());
+			}
+			--dur;
+			if(dur <= 0)
+			{
+				is.setDurability(is.getType().getMaxDurability());
+				continue;
+			}
+			if(dur > eg.getDurability())
+				Store.setDurability(is, eg.getDurability());
+			else
+				Store.setDurability(is, dur);
 		}
-		EpicWeapon ew = Store.getEpicWeapon(damager.getItemInHand());
+		
+		if(!(event.getEntity() instanceof LivingEntity))
+			return;
+		if(((LivingEntity)event.getEntity()).getNoDamageTicks() > 10)
+			return;
+		
+		ItemStack is = damager.getItemInHand();
+		EpicWeapon ew = Store.getEpicWeapon(is);
 		if(ew == null)
 			return;
 		ew.addDrinkPotionEffect(damager);
 		if(event.getEntity() instanceof LivingEntity)
 			ew.addSplashPotionEffect((LivingEntity)event.getEntity());
+		double dur = Store.getDurability(is);
+		if(dur == -1)
+		{
+			dur = ew.getDurability();
+			--dur;
+			List<String> list = new ArrayList<String>();
+			list.add("&kdur:" + dur);
+			Iterator<String> itr = ItemUtils.getLore(is).iterator();
+			while(itr.hasNext())
+			{
+				list.add(itr.next());
+			}
+			ItemUtils.setLore(is, list);
+			Store.setDurability(is, dur);
+			return;
+		}
+		--dur;
+		if(dur <= 0)
+		{
+			is.setDurability(is.getType().getMaxDurability());
+			return;
+		}
+		if(dur > ew.getDurability())
+			Store.setDurability(is, ew.getDurability());
+		else
+			Store.setDurability(is, dur);
+	}
+	
+	@EventHandler
+	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event)
+	{
+		if(event.isCancelled())
+			return;
+		if(!(event.getDamager() instanceof Player))
+			return;
+		if(!(event.getEntity() instanceof LivingEntity))
+			return;
+		if((event.getEntity() instanceof Player))
+			return;
+		if(((LivingEntity)event.getEntity()).getNoDamageTicks() > 10)
+			return;
+		
+		Player damager = (Player)event.getDamager();
+		
+		for(ItemStack is : damager.getInventory().getArmorContents())
+		{
+			Store.changeLore(is);
+			EpicGear eg = Store.getEpicGear(is);
+			if(eg == null)
+				continue;
+			
+			double dur = Store.getDurability(is);
+			if(dur == -1)
+			{
+				dur = eg.getDurability();
+				--dur;
+				List<String> list = new ArrayList<String>();
+				list.add("&kdur:" + dur);
+				Iterator<String> itr = ItemUtils.getLore(is).iterator();
+				while(itr.hasNext())
+				{
+					list.add(itr.next());
+				}
+				ItemUtils.setLore(is, list);
+				Store.setDurability(is, dur);
+				continue;
+			}
+			--dur;
+			if(dur <= 0)
+			{
+				is.setDurability(is.getType().getMaxDurability());
+				continue;
+			}
+			if(dur > eg.getDurability())
+				Store.setDurability(is, eg.getDurability());
+			else
+				Store.setDurability(is, dur);
+		}
+		ItemStack is = damager.getItemInHand();
+		EpicWeapon ew = Store.getEpicWeapon(is);
+		if(ew == null)
+			return;
+		ew.addDrinkPotionEffect(damager);
+		if(event.getEntity() instanceof LivingEntity)
+			ew.addSplashPotionEffect((LivingEntity)event.getEntity());
+		double dur = Store.getDurability(is);
+		if(dur == -1)
+		{
+			dur = ew.getDurability();
+			--dur;
+			List<String> list = new ArrayList<String>();
+			list.add("&kdur:" + dur);
+			Iterator<String> itr = ItemUtils.getLore(is).iterator();
+			while(itr.hasNext())
+			{
+				list.add(itr.next());
+			}
+			ItemUtils.setLore(is, list);
+			Store.setDurability(is, dur);
+			return;
+		}
+		--dur;
+		if(dur <= 0)
+		{
+			is.setDurability(is.getType().getMaxDurability());
+			return;
+		}
+		if(dur > ew.getDurability())
+			Store.setDurability(is, ew.getDurability());
+		else
+			Store.setDurability(is, dur);
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onEntityDamageEvent(PBEntityDamageEvent event)
+	public void onPBEntityDamageEvent(PBEntityDamageEvent event)
 	{
 		if(event.isCancelled())
 			return;
@@ -176,23 +346,45 @@ public class PlayerListener implements Listener
 		if(event.getCause().equals(DamageCause.CONTACT) || event.getCause().equals(DamageCause.FIRE) || event.getCause().equals(DamageCause.LAVA)
 				|| event.getCause().equals(DamageCause.FIRE_TICK))
 		{
-			//event.setCancelled(true);
-			//player.damage(0D);
-			//PvpHandler.getPvpPlayer(player).damage(event.getDamage());
+			event.setCancelled(true);
+			player.damage(0D);
+			PvpHandler.getPvpPlayer(player).uncheckedDamage(event.getDamage());
 			return;
 		}
+		
 		for(ItemStack is : player.getInventory().getArmorContents())
 		{
-			if(isLeatherArmor(is))
+			Store.changeLore(is);
+			EpicGear eg = Store.getEpicGear(is);
+			if(eg == null)
+				continue;
+			
+			double dur = Store.getDurability(is);
+			if(dur == -1)
 			{
-				if(Math.random() > 0.999 || Math.random() > 0.999)
+				dur = eg.getDurability();
+				--dur;
+				List<String> list = new ArrayList<String>();
+				list.add("&kdur:" + dur);
+				Iterator<String> itr = ItemUtils.getLore(is).iterator();
+				while(itr.hasNext())
 				{
-					continue;
+					list.add(itr.next());
 				}
-				is.setDurability((short) (is.getDurability()-1));
-				if(is.getDurability() < 0)
-					is.setDurability((short)0);
+				ItemUtils.setLore(is, list);
+				Store.setDurability(is, dur);
+				continue;
 			}
+			--dur;
+			if(dur <= 0)
+			{
+				is.setDurability(is.getType().getMaxDurability());
+				continue;
+			}
+			if(dur > eg.getDurability())
+				Store.setDurability(is, eg.getDurability());
+			else
+				Store.setDurability(is, dur);
 		}
 	}
 	
@@ -217,6 +409,73 @@ public class PlayerListener implements Listener
 			}
 		}
 	}*/
+	
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent event)
+	{
+		ItemStack is = event.getCurrentItem();
+	    if(is == null)
+	    	return;
+		String s = Store.getDecay(is);
+		if(s != null)
+		{
+			int dayNum = new Date().getDay();
+			String[] split = s.split(":");
+			if(split.length == 2)
+			{
+				if(dayNum != Integer.valueOf(split[1]))
+				{
+					if(split[0].equalsIgnoreCase("1"))
+					{
+						is = null;
+						return;
+					}
+					Store.setDecay(is, Integer.valueOf(split[0])-1, dayNum);
+				}
+			}
+		}
+		if(!event.isShiftClick() || event.getSlotType().equals(SlotType.ARMOR))
+		{
+			return;
+    	}
+	    EpicGear eg = Store.getEpicGear(is);
+		if(eg == null)
+			return;
+		if(is.getDurability() != 0)
+			return;
+		Store.setDurability(is, eg.getDurability());
+	}
+	
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onPlayerItemHeldEvent(PlayerItemHeldEvent event)
+	{
+		ItemStack is = event.getPlayer().getInventory().getItem(event.getNewSlot());
+	    if(is == null)
+	    	return;
+	    String s = Store.getDecay(is);
+		if(s != null)
+		{
+			int dayNum = new Date().getDay();
+			String[] split = s.split(":");
+			if(dayNum != Integer.valueOf(split[1]))
+			{
+				if(split[0].equalsIgnoreCase("1"))
+				{
+					is = null;
+					return;
+				}
+				Store.setDecay(is, Integer.valueOf(split[0])-1, dayNum);
+			}
+		}
+	    EpicGear eg = Store.getEpicGear(is);
+		if(eg == null)
+			return;
+		if(is.getDurability() != 0)
+			return;
+		Store.setDurability(is, eg.getDurability());
+	}
 	
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent event)
@@ -353,7 +612,7 @@ public class PlayerListener implements Listener
 		}
 	}*/
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPBEntityDeathEvent(PBEntityDeathEvent event)
 	{
 		LivingEntity le = event.getEntity();
@@ -368,10 +627,15 @@ public class PlayerListener implements Listener
 				Iterator<ItemStack> itr = event.getDrops().iterator();
 				while(itr.hasNext())
 				{
-					ItemStack is = (ItemStack)itr.next();
-					if(isArmor(is) || isWeapon(is))
+					ItemStack is = itr.next();
+					EpicGear eg = Store.getEpicGear(is);
+					if(eg != null)
 					{
-						if(Math.random() <= chance)
+						if(eg.getDontDropOnDeath())
+						{
+							killed.getEnderChest().addItem(is);
+						}
+						else if(Math.random() <= chance)
 							itr.remove();
 					}
 				}
@@ -497,7 +761,7 @@ public class PlayerListener implements Listener
 			return false;
 	}
 	
-	private boolean isWeapon(ItemStack is)
+	/*private boolean isWeapon(ItemStack is)
 	{
 		if(is == null)
 			return false;

@@ -1,5 +1,6 @@
 package me.frodenkvist.armoreditor;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
  
 import org.bukkit.ChatColor;
@@ -29,6 +30,28 @@ public class Namer
 		
 		return item;
 	}
+	
+	public static ItemStack setLore(ItemStack item, String lore)
+	{
+		ItemMeta im = item.getItemMeta();
+		List<String> loreList = new ArrayList<String>();
+		loreList.add(lore);
+		im.setLore(addChatColor(loreList));
+		item.setItemMeta(im);
+		
+		return item;
+	}
+	
+	public static ItemStack setLore(ItemStack item, String lore, int index)
+	{
+		ItemMeta im = item.getItemMeta();
+		List<String> loreList = im.getLore();
+		loreList.set(index, lore);
+		im.setLore(addChatColor(loreList));
+		item.setItemMeta(im);
+		
+		return item;
+	}
 	 
 	public static ItemStack addLore(ItemStack item, String lore)
 	{
@@ -40,9 +63,28 @@ public class Namer
 		
 		return item;
 	}
+	
+	public static ItemStack addLore(ItemStack item, List<String> lore)
+	{
+		ItemMeta im = item.getItemMeta();
+		List<String> temp = im.getLore();
+		Iterator<String> itr = lore.iterator();
+		while(itr.hasNext())
+		{
+			temp.add(addChatColor(itr.next()));
+		}
+		im.setLore(temp);
+		item.setItemMeta(im);
+		
+		return item;
+	}
 	 
 	public static List<String> getLore(ItemStack item)
 	{
+		if(item == null)
+			return null;
+		if(item.getItemMeta() == null)
+			return null;
 		return item.getItemMeta().getLore();
 	}
 	

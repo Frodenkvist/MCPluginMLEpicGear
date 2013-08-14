@@ -1,6 +1,6 @@
 name: EpicGear
 main: me.frodenkvist.armoreditor.ArmorEditor
-version: 1.0.8
+version: 1.0.9
 depend: [PVPBalance]
 softdepend: [EpicBoss, Towny, Vault]
 description: >

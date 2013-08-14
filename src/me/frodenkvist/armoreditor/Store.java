@@ -2,6 +2,7 @@ package me.frodenkvist.armoreditor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -10,6 +11,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+
+import Util.ItemUtils;
 
 public class Store
 {
@@ -197,21 +200,20 @@ public class Store
 	{
 		if(is.getItemMeta() == null)
 			return null;
-		List<String> lore = is.getItemMeta().getLore();
+		List<String> lore = ItemUtils.getLore(is);
 		if(lore == null || lore.isEmpty())
 			return null;
 		for(EpicGear eg : inventory)
 		{
 			//if(!(eg instanceof EpicArmor))
-			if(eg.getCode().equalsIgnoreCase(lore.get(lore.size()-1)))
-				return (EpicArmor)eg;
+			if(Namer.addChatColor(eg.getCode()).equalsIgnoreCase(Namer.addChatColor(lore.get(lore.size()-1))))
+				return eg;
 		}
 		return null;
 	}
 	
 	public static EpicWeapon getEpicWeapon(ItemStack is)
 	{
-
 		if(is.getItemMeta() == null)
 			return null;
 		List<String> lore = is.getItemMeta().getLore();
@@ -259,5 +261,116 @@ public class Store
 			if((i+1) >= inventory.size())
 				break;
 		}
+	}
+	
+	public static double getDurability(ItemStack is)
+	{
+		Iterator<String> itr = Namer.getLore(is).iterator();
+		while(itr.hasNext())
+		{
+			String s = itr.next();
+			if(!s.contains("dur:"))
+			{
+				continue;
+			}
+			return Double.valueOf(s.split(":")[1]);
+		}
+		return -1;
+	}
+	
+	public static void setDurability(ItemStack is, double durability)
+	{
+		int counter = 0;
+		Iterator<String> itr = Namer.getLore(is).iterator();
+		while(itr.hasNext())
+		{
+			String s = itr.next();
+			if(!s.contains("dur:"))
+			{
+				++counter;
+				continue;
+			}
+			/*if(durability <= 0)
+			{
+				is = null;
+				break;
+			}*/
+			Namer.setLore(is, "&kdur:" + durability, counter);
+			
+			double percent = durability / getEpicGear(is).getDurability();
+			
+			short realDur = (short) (is.getType().getMaxDurability() * (1 - percent));
+			if(realDur <= 1)
+				realDur = 2;
+			is.setDurability(realDur);
+			break;
+		}
+	}
+	
+	public static void setDecay(ItemStack is, int decay, int dayNum)
+	{
+		if(Namer.getLore(is) == null)
+			return;
+		int counter = 0;
+		Iterator<String> itr = Namer.getLore(is).iterator();
+		while(itr.hasNext())
+		{
+			String s = itr.next();
+			if(!s.contains("Decay "))
+			{
+				++counter;
+				continue;
+			}
+			/*if(durability <= 0)
+			{
+				is = null;
+				break;
+			}*/
+			Namer.setLore(is, "Decay " + decay + "&k:" + dayNum, counter);
+			break;
+		}
+	}
+	
+	public static String getDecay(ItemStack is)
+	{
+		if(Namer.getLore(is) == null)
+			return null;
+		Iterator<String> itr = Namer.getLore(is).iterator();
+		while(itr.hasNext())
+		{
+			String s = itr.next();
+			if(!s.contains("Decay "))
+			{
+				continue;
+			}
+			String re = s.replace("Decay ", "").replace("§k", "");
+			return re;
+		}
+		return null;
+	}
+	
+	public static void changeLore(ItemStack is)
+	{
+		if(is == null)
+			return;
+		if(is.getItemMeta() == null)
+			return;
+		List<String> lore = ItemUtils.getLore(is);
+		if(lore == null)
+			return;
+		if(lore.size() <= 0)
+			return;
+		String s = lore.get(lore.size()-1);
+		if(!s.contains("Polished"))
+			return;
+		lore.remove(lore.size()-1);
+		List<String> newLore = new ArrayList<String>();
+		newLore.add(s);
+		Iterator<String> itr = lore.iterator();
+		while(itr.hasNext())
+		{
+			newLore.add(itr.next());
+		}
+		ItemUtils.setLore(is, newLore);
 	}
 }

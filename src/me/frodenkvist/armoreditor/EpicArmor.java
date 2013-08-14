@@ -69,6 +69,11 @@ public class EpicArmor extends EpicGear
 		info = cs.getStringList(type + ".Info");
 		ench = cs.getStringList(type + ".Enchantments");
 		repairCost = cs.getInt(type + ".RepairCost");
+		dontDropOnDeath = cs.getBoolean(type + ".DontDropOnDeath");
+		if(cs.contains(type + ".Decay"))
+		{
+			decay = cs.getInt(type + ".Decay");
+		}
 		
 		return true;
 	}
@@ -78,8 +83,11 @@ public class EpicArmor extends EpicGear
 	{
 		String material = ("leather_" + type).toUpperCase();
 		ItemStack is = new ItemStack(Material.getMaterial(material));
+		Namer.setLore(is, "&kdur:" + durability);
+		if(decay >= 0)
+			Namer.addLore(is, "Decay " + decay + "§k:-1");
 		Namer.setName(is, name);
-		Namer.setLore(is, lore);
+		Namer.addLore(is, lore);
 		LeatherArmorMeta lam = (LeatherArmorMeta)is.getItemMeta();
 		lam.setColor(color);
 		is.setItemMeta(lam);

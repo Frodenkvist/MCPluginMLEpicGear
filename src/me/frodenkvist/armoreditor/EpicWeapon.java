@@ -57,6 +57,11 @@ public class EpicWeapon extends EpicGear
 		info = cs.getStringList(material + "s" + "." + color.asRGB() + ".Info");
 		repairCost = cs.getInt(material + "s" + "." + color.asRGB() + ".RepairCost");
 		skill = getSkill(cs.getString(material + "s" + "." + color.asRGB() + ".Skill"));
+		dontDropOnDeath = cs.getBoolean(type + ".DontDropOnDeath");
+		if(cs.contains(type + ".Decay"))
+		{
+			decay = cs.getInt(type + ".Decay");
+		}
 		
 		return true;
 	}
@@ -115,10 +120,13 @@ public class EpicWeapon extends EpicGear
 		{
 			is = new ItemStack(Material.BOW);
 		}
+		Namer.setLore(is, "&kdur:" + durability);
+		if(decay >= 0)
+			Namer.addLore(is, "Decay " + decay + "§k:-1");
 		Namer.setName(is, name);
-		Namer.setLore(is, lore);
-		if(durability > 0)
-			is.addUnsafeEnchantment(Enchantment.DURABILITY, (int)durability);
+		Namer.addLore(is, lore);
+		//if(durability > 0)
+		//	is.addUnsafeEnchantment(Enchantment.DURABILITY, (int)durability);
 		for(String s : ench)
 		{
 			String[] split = s.split(",");
