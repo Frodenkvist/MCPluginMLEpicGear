@@ -1,5 +1,8 @@
 package me.frodenkvist.armoreditor;
 
+import me.ThaH3lper.com.Entitys.Mob;
+import me.ThaH3lper.com.Entitys.MobsHandler;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -411,6 +414,12 @@ public class SkillWitherStorm extends Skill
                 			//center.getWorld().strikeLightningEffect(le.getLocation());
                 			if(!Damage.canHit(le, caster))
                 				continue;
+                			Mob mob = MobsHandler.getMob(le);
+                			if(mob != null)
+                			{
+                				if(mob.isEpicImmune())
+                					continue;
+                			}
                 			if(le instanceof Player)
                 				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
                 			else

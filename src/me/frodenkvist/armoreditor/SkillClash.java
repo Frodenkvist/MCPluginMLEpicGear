@@ -2,6 +2,9 @@ package me.frodenkvist.armoreditor;
 
 import java.util.Iterator;
 
+import me.ThaH3lper.com.Entitys.Mob;
+import me.ThaH3lper.com.Entitys.MobsHandler;
+
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -37,6 +40,12 @@ public class SkillClash extends Skill
 			LivingEntity target = (LivingEntity)e;
 			if(!Damage.canHit(target, caster))
 				continue;
+			Mob mob = MobsHandler.getMob(target);
+			if(mob != null)
+			{
+				if(mob.isEpicImmune())
+					continue;
+			}
 			try
 			{
 				fplayer.playFirework(target.getWorld(), target.getLocation(), fe);

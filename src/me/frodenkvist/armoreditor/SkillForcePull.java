@@ -1,5 +1,8 @@
 package me.frodenkvist.armoreditor;
 
+import me.ThaH3lper.com.Entitys.Mob;
+import me.ThaH3lper.com.Entitys.MobsHandler;
+
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -28,6 +31,12 @@ public class SkillForcePull extends Skill
 		LivingEntity target = (LivingEntity)e;
 		if(!Damage.canHit(target, caster))
 			return false;
+		Mob mob = MobsHandler.getMob(target);
+		if(mob != null)
+		{
+			if(mob.isEpicImmune())
+				return false;
+		}
 		final FireworkEffectPlayer fplayer = new FireworkEffectPlayer();
 		FireworkEffect fe = FireworkEffect.builder().with(Type.BURST).withColor(Color.BLUE).withColor(Color.AQUA).flicker(true).build();
 		try

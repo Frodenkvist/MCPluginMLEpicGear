@@ -296,12 +296,12 @@ public class Store
 				break;
 			}*/
 			Namer.setLore(is, "&kdur:" + durability, counter);
-			
+			//Bukkit.broadcastMessage("" + durability + " " + getEpicGear(is).getDurability());
 			double percent = durability / getEpicGear(is).getDurability();
-			
+			//Bukkit.broadcastMessage("" + percent);
 			short realDur = (short) (is.getType().getMaxDurability() * (1 - percent));
-			if(realDur <= 1)
-				realDur = 2;
+			if(realDur >= is.getType().getMaxDurability())
+				realDur = (short) (is.getType().getMaxDurability() - 1);
 			is.setDurability(realDur);
 			break;
 		}

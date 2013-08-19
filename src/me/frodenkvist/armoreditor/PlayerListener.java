@@ -19,9 +19,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -33,7 +33,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import Event.PBEntityDamageEntityEvent;
 import Event.PBEntityDamageEvent;
-import Event.PBEntityDeathEvent;
 import PvpBalance.PvpHandler;
 import Util.ItemUtils;
 
@@ -134,6 +133,8 @@ public class PlayerListener implements Listener
 				if(eg == null)
 					continue;
 				double dur = Store.getDurability(is);
+				if(is.getDurability() == 0)
+					dur = eg.getDurability();
 				if(dur == -1)
 				{
 					dur = eg.getDurability();
@@ -173,8 +174,10 @@ public class PlayerListener implements Listener
 			EpicGear eg = Store.getEpicGear(is);
 			if(eg == null)
 				continue;
-			
-			double dur = Store.getDurability(is);
+			eg.addDrinkPotionEffect(damager);
+			if(event.getEntity() instanceof LivingEntity)
+				eg.addSplashPotionEffect((LivingEntity)event.getEntity());
+			/*double dur = Store.getDurability(is);
 			if(dur == -1)
 			{
 				dur = eg.getDurability();
@@ -199,7 +202,7 @@ public class PlayerListener implements Listener
 			if(dur > eg.getDurability())
 				Store.setDurability(is, eg.getDurability());
 			else
-				Store.setDurability(is, dur);
+				Store.setDurability(is, dur);*/
 		}
 		
 		if(!(event.getEntity() instanceof LivingEntity))
@@ -215,6 +218,8 @@ public class PlayerListener implements Listener
 		if(event.getEntity() instanceof LivingEntity)
 			ew.addSplashPotionEffect((LivingEntity)event.getEntity());
 		double dur = Store.getDurability(is);
+		if(is.getDurability() == 0)
+			dur = ew.getDurability();
 		if(dur == -1)
 		{
 			dur = ew.getDurability();
@@ -265,7 +270,11 @@ public class PlayerListener implements Listener
 			if(eg == null)
 				continue;
 			
-			double dur = Store.getDurability(is);
+			eg.addDrinkPotionEffect(damager);
+			if(event.getEntity() instanceof LivingEntity)
+				eg.addSplashPotionEffect((LivingEntity)event.getEntity());
+			
+			/*double dur = Store.getDurability(is);
 			if(dur == -1)
 			{
 				dur = eg.getDurability();
@@ -290,7 +299,7 @@ public class PlayerListener implements Listener
 			if(dur > eg.getDurability())
 				Store.setDurability(is, eg.getDurability());
 			else
-				Store.setDurability(is, dur);
+				Store.setDurability(is, dur);*/
 		}
 		ItemStack is = damager.getItemInHand();
 		EpicWeapon ew = Store.getEpicWeapon(is);
@@ -300,6 +309,8 @@ public class PlayerListener implements Listener
 		if(event.getEntity() instanceof LivingEntity)
 			ew.addSplashPotionEffect((LivingEntity)event.getEntity());
 		double dur = Store.getDurability(is);
+		if(is.getDurability() == 0)
+			dur = ew.getDurability();
 		if(dur == -1)
 		{
 			dur = ew.getDurability();
@@ -360,6 +371,8 @@ public class PlayerListener implements Listener
 				continue;
 			
 			double dur = Store.getDurability(is);
+			if(is.getDurability() == 0)
+				dur = eg.getDurability();
 			if(dur == -1)
 			{
 				dur = eg.getDurability();
@@ -417,6 +430,15 @@ public class PlayerListener implements Listener
 		ItemStack is = event.getCurrentItem();
 	    if(is == null)
 	    	return;
+	    EpicGear eg = Store.getEpicGear(is);
+		if(eg == null)
+			return;
+		if(is.getDurability() == 0)
+		{
+			//Bukkit.broadcastMessage("" + is.getDurability());
+			Store.setDurability(is, eg.getDurability());
+			//Bukkit.broadcastMessage("" + is.getDurability());
+		}
 		String s = Store.getDecay(is);
 		if(s != null)
 		{
@@ -435,16 +457,14 @@ public class PlayerListener implements Listener
 				}
 			}
 		}
-		if(!event.isShiftClick() || event.getSlotType().equals(SlotType.ARMOR))
-		{
-			return;
-    	}
-	    EpicGear eg = Store.getEpicGear(is);
-		if(eg == null)
-			return;
-		if(is.getDurability() != 0)
-			return;
-		Store.setDurability(is, eg.getDurability());
+		//if(!event.isShiftClick() || event.getSlotType().equals(SlotType.ARMOR))
+		//{
+		//	return;
+    	//}
+		//Bukkit.broadcastMessage("" + is.getDurability());
+		//if(is.getDurability() != 0)
+		//	return;
+		//Store.setDurability(is, eg.getDurability());
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -459,14 +479,17 @@ public class PlayerListener implements Listener
 		{
 			int dayNum = new Date().getDay();
 			String[] split = s.split(":");
-			if(dayNum != Integer.valueOf(split[1]))
+			if(split.length == 2)
 			{
-				if(split[0].equalsIgnoreCase("1"))
+				if(dayNum != Integer.valueOf(split[1]))
 				{
-					is = null;
-					return;
+					if(split[0].equalsIgnoreCase("1"))
+					{
+						is = null;
+						return;
+					}
+					Store.setDecay(is, Integer.valueOf(split[0])-1, dayNum);
 				}
-				Store.setDecay(is, Integer.valueOf(split[0])-1, dayNum);
 			}
 		}
 	    EpicGear eg = Store.getEpicGear(is);
@@ -612,8 +635,8 @@ public class PlayerListener implements Listener
 		}
 	}*/
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPBEntityDeathEvent(PBEntityDeathEvent event)
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onEntityDeathEvent(EntityDeathEvent event)
 	{
 		LivingEntity le = event.getEntity();
 		if(le instanceof Player)
@@ -636,7 +659,7 @@ public class PlayerListener implements Listener
 							killed.getEnderChest().addItem(is);
 						}
 						else if(Math.random() <= chance)
-							itr.remove();
+							event.getDrops().remove(is);
 					}
 				}
 			}
