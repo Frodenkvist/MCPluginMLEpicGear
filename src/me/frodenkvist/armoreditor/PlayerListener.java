@@ -239,6 +239,7 @@ public class PlayerListener implements Listener
 					is = null;
 				return;
 			}
+			return;
 		}
 		ew.addDrinkPotionEffect(damager);
 		if(event.getEntity() instanceof LivingEntity)
@@ -356,6 +357,7 @@ public class PlayerListener implements Listener
 					is = null;
 				return;
 			}
+			return;
 		}
 		ew.addDrinkPotionEffect(damager);
 		if(event.getEntity() instanceof LivingEntity)
