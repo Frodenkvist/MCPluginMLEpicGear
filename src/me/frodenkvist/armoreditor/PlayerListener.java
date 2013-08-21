@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -164,6 +165,10 @@ public class PlayerListener implements Listener
 		}
 		//if(!(event.getEntity() instanceof Player))
 		//	loc = event.getEntity().getLocation();
+		if(!(event.getEntity() instanceof LivingEntity))
+			return;
+		if(((LivingEntity)event.getEntity()).getNoDamageTicks() > 10)
+			return;
 		if(!(event.getDamager() instanceof Player))
 			return;
 		Player damager = (Player)event.getDamager();
@@ -205,15 +210,36 @@ public class PlayerListener implements Listener
 				Store.setDurability(is, dur);*/
 		}
 		
-		if(!(event.getEntity() instanceof LivingEntity))
-			return;
-		if(((LivingEntity)event.getEntity()).getNoDamageTicks() > 10)
-			return;
-		
 		ItemStack is = damager.getItemInHand();
 		EpicWeapon ew = Store.getEpicWeapon(is);
 		if(ew == null)
-			return;
+		{
+			if(is.getType().equals(Material.WOOD_HOE) || is.getType().equals(Material.STONE_HOE) || is.getType().equals(Material.IRON_HOE) || is.getType().equals(Material.GOLD_HOE)
+					 || is.getType().equals(Material.DIAMOND_HOE))
+			{
+				Iterator<Enchantment> itr = is.getEnchantments().keySet().iterator();
+				while(itr.hasNext())
+				{
+					Enchantment temp = itr.next();
+					if(temp.getName().equalsIgnoreCase("durability"))
+					{
+						double chance = 100D/(is.getEnchantments().get(temp)+1);
+						chance = chance/100D;
+						if(Math.random() <= chance)
+						{
+							is.setDurability((short) (is.getDurability()+1));
+							if(is.getType().getMaxDurability() <= is.getDurability())
+								is = null;
+						}
+						return;
+					}
+				}
+				is.setDurability((short) (is.getDurability()+1));
+				if(is.getType().getMaxDurability() <= is.getDurability())
+					is = null;
+				return;
+			}
+		}
 		ew.addDrinkPotionEffect(damager);
 		if(event.getEntity() instanceof LivingEntity)
 			ew.addSplashPotionEffect((LivingEntity)event.getEntity());
@@ -304,7 +330,33 @@ public class PlayerListener implements Listener
 		ItemStack is = damager.getItemInHand();
 		EpicWeapon ew = Store.getEpicWeapon(is);
 		if(ew == null)
-			return;
+		{
+			if(is.getType().equals(Material.WOOD_HOE) || is.getType().equals(Material.STONE_HOE) || is.getType().equals(Material.IRON_HOE) || is.getType().equals(Material.GOLD_HOE)
+					 || is.getType().equals(Material.DIAMOND_HOE))
+			{
+				Iterator<Enchantment> itr = is.getEnchantments().keySet().iterator();
+				while(itr.hasNext())
+				{
+					Enchantment temp = itr.next();
+					if(temp.getName().equalsIgnoreCase("durability"))
+					{
+						double chance = 100D/(is.getEnchantments().get(temp)+1);
+						chance = chance/100D;
+						if(Math.random() <= chance)
+						{
+							is.setDurability((short) (is.getDurability()+1));
+							if(is.getType().getMaxDurability() <= is.getDurability())
+								is = null;
+						}
+						return;
+					}
+				}
+				is.setDurability((short) (is.getDurability()+1));
+				if(is.getType().getMaxDurability() <= is.getDurability())
+					is = null;
+				return;
+			}
+		}
 		ew.addDrinkPotionEffect(damager);
 		if(event.getEntity() instanceof LivingEntity)
 			ew.addSplashPotionEffect((LivingEntity)event.getEntity());
@@ -400,28 +452,6 @@ public class PlayerListener implements Listener
 				Store.setDurability(is, dur);
 		}
 	}
-	
-//	@EventHandler
-/*	public void onBossDeathEvent(BossDeathEvent event)
-	{
-		String bossName = event.getBossName();
-		if(plugin.getConfig().contains("Drops." + bossName))
-		{
-			List<String> items = plugin.getConfig().getStringList("Drops." + bossName);
-			for(String s : items)
-			{
-				String[] split = s.split(",");
-				double chance = Double.valueOf(split[1]);
-				if(Math.random() <= chance)
-				{
-					EpicGear eg = Store.getEpicGear(split[0]);
-					if(eg == null)
-						continue;
-					loc.getWorld().dropItemNaturally(loc, eg.getItem());
-				}
-			}
-		}
-	}*/
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -521,119 +551,7 @@ public class PlayerListener implements Listener
 	public void onPlayerQuitEvent(PlayerQuitEvent event)
 	{
 		AEHandler.removePlayer(event.getPlayer().getName());
-	}/*
-	
-	@EventHandler
-	public void onInventoryClickEvent(InventoryClickEvent event)
-	{
-		if(event.getInventory().getType().equals(InventoryType.ANVIL))
-		{
-			ItemStack is = event.getCurrentItem();
-			if(isLeatherArmor(is))
-			{
-				if(getColorName(is) != null)
-				{
-					event.setCancelled(true);
-					return;
-				}
-			}
-			else if(isWeapon(is))
-			{
-				if(Namer.getName(is) != null && !Namer.getName(is).isEmpty() && Namer.getName(is).length() != 0)
-				{
-					int id = is.getTypeId();
-					switch(id)
-					{
-					case 268:
-					case 272:
-					case 267:
-					case 283:
-					case 276:
-						int i = 1;
-						while(plugin.getConfig().contains("Weapons.Swords." + i))
-						{
-							++i;
-						}
-						--i;
-						for(int j = 1;j<=i;++j)
-						{
-							if(!is.getType().toString().toLowerCase().split("_")[0].equalsIgnoreCase(plugin.getConfig().getString("Weapons.Swords." + j + ".Type")))
-								continue;
-							List<String> thing = plugin.getConfig().getStringList("Weapons.Swords." + j + ".Lore");
-							String name = thing.get(thing.size()-1);
-							name = Namer.addChatColor(name);
-							String[] things = Namer.getLoreAsArray(is);
-							if(things.length == 0)
-								return;
-							String itemInHandName = things[things.length-1];
-								
-							if(itemInHandName.equalsIgnoreCase(name))
-							{
-								event.setCancelled(true);
-								return;
-							}
-						}
-					case 271:
-					case 275:
-					case 258:
-					case 286:
-					case 279:
-						int i2 = 1;
-						while(plugin.getConfig().contains("Weapons.Swords." + i2))
-						{
-							++i2;
-						}
-						--i2;
-						for(int j = 1;j<=i2;++j)
-						{
-							if(!is.getType().toString().toLowerCase().split("_")[0].equalsIgnoreCase(plugin.getConfig().getString("Weapons.Axes." + j + ".Type")))
-								continue;
-							List<String> thing = plugin.getConfig().getStringList("Weapons.Axes." + j + ".Lore");
-							String name = thing.get(thing.size()-1);
-							name = Namer.addChatColor(name);
-							String[] things = Namer.getLoreAsArray(is);
-							if(things.length == 0)
-								return;
-							String itemInHandName = things[things.length-1];
-							
-							if(itemInHandName.equalsIgnoreCase(name))
-							{
-								event.setCancelled(true);
-								return;
-							}
-						}
-					case 261:
-						int i3 = 1;
-						while(true)
-						{
-							if(!plugin.getConfig().contains("Weapons.Bows." + String.valueOf(i3)))
-							{
-								--i3;
-								break;
-							}
-							++i3;
-						}
-						for(int j=1;j<=i3;++j)
-						{
-							List<String> thing = plugin.getConfig().getStringList("Weapons.Bows." + j + ".Lore");
-							String name = thing.get(thing.size()-1);
-							name = Namer.addChatColor(name);
-							String[] things = Namer.getLoreAsArray(is);
-							if(things.length == 0)
-								return;
-							String itemInHandName = things[things.length-1];
-							
-							if(itemInHandName.equalsIgnoreCase(name))
-							{
-								event.setCancelled(true);
-								return;
-							}
-						}
-					}
-				}	
-			}
-		}
-	}*/
+	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onEntityDeathEvent(EntityDeathEvent event)

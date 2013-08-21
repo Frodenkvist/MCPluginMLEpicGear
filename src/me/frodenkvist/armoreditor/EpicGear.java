@@ -28,6 +28,7 @@ public abstract class EpicGear
 	protected int repairCost;
 	protected boolean dontDropOnDeath;
 	protected int decay = -1;
+	protected boolean hidden;
 	
 	public abstract boolean load(ConfigurationSection cs, String type, Color color);
 	
@@ -134,5 +135,15 @@ public abstract class EpicGear
 		{
 			player.sendMessage(Namer.addChatColor(s));
 		}
+	}
+	
+	public void setHidden(boolean value)
+	{
+		hidden = value;
+	}
+	
+	public boolean isHidden()
+	{
+		return hidden;
 	}
 }

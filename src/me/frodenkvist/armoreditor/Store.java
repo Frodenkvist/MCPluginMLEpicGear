@@ -75,7 +75,7 @@ public class Store
 			if(eg.load(fc.getConfigurationSection(c), "Boots", AEHandler.getColorByName(c)))
 				inventory.add(eg);
 		}
-		for(int i = 0;i < 3; ++i)
+		for(int i = 0;i < 4; ++i)
 		{
 			switch(i)
 			{
@@ -87,6 +87,9 @@ public class Store
 				break;
 			case 2:
 				c = "Bow";
+				break;
+			case 3:
+				c = "Hoe";
 				break;
 			}
 			for(int j=1;fc.contains("Weapons." + c + "s" + "." + j);++j)
@@ -241,7 +244,22 @@ public class Store
 	
 	public static void displayStoreList(Player player, int nr)
 	{
-		int size = inventory.size();
+		int size = 0;
+		List<EpicGear> cencList = new ArrayList<EpicGear>();
+		if(!player.hasPermission("epicgear.admin"))
+		{
+			Iterator<EpicGear> itr = inventory.iterator();
+			while(itr.hasNext())
+			{
+				EpicGear temp = itr.next();
+				if(!temp.isHidden())
+					cencList.add(temp);
+			}
+			
+			size = cencList.size();
+		}
+		else
+			size = inventory.size();
 		if(size <= 0)
 		{
 			player.sendMessage(ChatColor.RED + "The Is Nothing In The Store Right Now");
@@ -256,10 +274,20 @@ public class Store
 		player.sendMessage(ChatColor.GOLD + "| " + ChatColor.AQUA + " Name " + ChatColor.GOLD + " | " + ChatColor.DARK_AQUA + " Buy Name " + ChatColor.GOLD + " | " + ChatColor.GRAY + " Cost " + ChatColor.GOLD + " |");
 		for(int i = ((8*nr)-8);i < (nr*8);++i)
 		{
-			EpicGear eg = inventory.get(i);
-			player.sendMessage(ChatColor.GOLD + "- " + ChatColor.AQUA + Namer.removeTag(eg.getName()) + " " + ChatColor.DARK_AQUA + eg.getDisplayName() + " " + ChatColor.GRAY + eg.getCost());
-			if((i+1) >= inventory.size())
-				break;
+			if(player.hasPermission("epicgear.admin"))
+			{
+				EpicGear eg = inventory.get(i);
+				player.sendMessage(ChatColor.GOLD + "- " + ChatColor.AQUA + Namer.removeTag(eg.getName()) + " " + ChatColor.DARK_AQUA + eg.getDisplayName() + " " + ChatColor.GRAY + eg.getCost());
+				if((i+1) >= inventory.size())
+					break;
+			}
+			else
+			{
+				EpicGear eg = cencList.get(i);
+				player.sendMessage(ChatColor.GOLD + "- " + ChatColor.AQUA + Namer.removeTag(eg.getName()) + " " + ChatColor.DARK_AQUA + eg.getDisplayName() + " " + ChatColor.GRAY + eg.getCost());
+				if((i+1) >= cencList.size())
+					break;
+			}
 		}
 	}
 	

@@ -74,6 +74,7 @@ public class EpicArmor extends EpicGear
 		{
 			decay = cs.getInt(type + ".Decay");
 		}
+		hidden = cs.getBoolean(type + ".Hidden");
 		
 		return true;
 	}

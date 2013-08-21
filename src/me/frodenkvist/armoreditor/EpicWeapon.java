@@ -58,10 +58,11 @@ public class EpicWeapon extends EpicGear
 		repairCost = cs.getInt(material + "s" + "." + color.asRGB() + ".RepairCost");
 		skill = getSkill(cs.getString(material + "s" + "." + color.asRGB() + ".Skill"));
 		dontDropOnDeath = cs.getBoolean(type + ".DontDropOnDeath");
-		if(cs.contains(type + ".Decay"))
+		if(cs.contains(material + "s" + "." + color.asRGB() + ".Decay"))
 		{
-			decay = cs.getInt(type + ".Decay");
+			decay = cs.getInt(material + "s" + "." + color.asRGB() + ".Decay");
 		}
+		hidden = cs.getBoolean(material + "s" + "." + color.asRGB() + ".Hidden");
 		
 		return true;
 	}
@@ -114,6 +115,29 @@ public class EpicWeapon extends EpicGear
 			else if(type.equalsIgnoreCase("diamond"))
 			{
 				is = new ItemStack(Material.DIAMOND_AXE);
+			}
+		}
+		else if(material.equalsIgnoreCase("hoe"))
+		{
+			if(type.equalsIgnoreCase("wood"))
+			{
+				is = new ItemStack(Material.WOOD_HOE);
+			}
+			else if(type.equalsIgnoreCase("stone"))
+			{
+				is = new ItemStack(Material.STONE_HOE);
+			}
+			else if(type.equalsIgnoreCase("iron"))
+			{
+				is = new ItemStack(Material.IRON_HOE);
+			}
+			else if(type.equalsIgnoreCase("gold"))
+			{
+				is = new ItemStack(Material.GOLD_HOE);
+			}
+			else if(type.equalsIgnoreCase("diamond"))
+			{
+				is = new ItemStack(Material.DIAMOND_HOE);
 			}
 		}
 		else if(material.equalsIgnoreCase("bow"))
@@ -233,6 +257,14 @@ public class EpicWeapon extends EpicGear
 		else if(split[0].equalsIgnoreCase("execution"))
 		{
 			return new SkillExecution(Integer.valueOf(split[1]));
+		}
+		else if(split[0].equalsIgnoreCase("detonate"))
+		{
+			return new SkillDetonate(Integer.valueOf(split[1]));
+		}
+		else if(split[0].equalsIgnoreCase("summonquaxis"))
+		{
+			return new SkillSummonQuaxis(Integer.valueOf(split[1]));
 		}
 		else
 		{

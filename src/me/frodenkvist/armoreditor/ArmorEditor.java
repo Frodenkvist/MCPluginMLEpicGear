@@ -107,7 +107,7 @@ public class ArmorEditor extends JavaPlugin
 						AEHandler.getPlayer(player).setKillCounter(AEPlayer.MAX_KILLCOUNTER);
 						player.sendMessage(ChatColor.GREEN + "You Have Recived The Maximum Amount Of Points");
 					}
-					else if(args[0].equalsIgnoreCase("store") && (player.hasPermission("epicgear.admin") || player.hasPermission("epicgear.store")))
+					else if(args[0].equalsIgnoreCase("store")/* && (player.hasPermission("epicgear.admin") || player.hasPermission("epicgear.store"))*/)
 					{
 						Store.displayStoreList(player, 1);
 						return true;
@@ -220,7 +220,7 @@ public class ArmorEditor extends JavaPlugin
 				}
 				else if(args.length == 2)
 				{
-					if(args[0].equalsIgnoreCase("store") && (player.hasPermission("epicgear.admin") || player.hasPermission("epicgear.store")))
+					if(args[0].equalsIgnoreCase("store")/* && (player.hasPermission("epicgear.admin") || player.hasPermission("epicgear.store"))*/)
 					{
 						Store.displayStoreList(player, Integer.valueOf(args[1]));
 						return true;
@@ -246,7 +246,7 @@ public class ArmorEditor extends JavaPlugin
 						}
 						eg.displayInfo(player);
 					}
-					else if(args[0].equalsIgnoreCase("buy") && (player.hasPermission("epicgear.admin") || player.hasPermission("epicgear.buy")))
+					else if(args[0].equalsIgnoreCase("buy")/* && (player.hasPermission("epicgear.admin") || player.hasPermission("epicgear.buy"))*/)
 					{
 						boolean check = false;
 						for(ItemStack is : player.getInventory().getContents())
@@ -439,6 +439,14 @@ public class ArmorEditor extends JavaPlugin
 								}
 							},1L);
 							return true;
+						}
+						else
+						{
+							if(eg.isHidden())
+							{
+								player.sendMessage(ChatColor.RED + "That Item Could Not Be Found!");
+								return false;
+							}
 						}
 						Inventory inv = player.getInventory();
 						double playerHave = 0;
