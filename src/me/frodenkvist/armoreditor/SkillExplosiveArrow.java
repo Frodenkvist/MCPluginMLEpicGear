@@ -69,9 +69,11 @@ public class SkillExplosiveArrow extends Skill
                 		{
                 			//Bukkit.broadcastMessage("5");
                 			//center.getWorld().strikeLightningEffect(le.getLocation());
+                			if(le instanceof Player){
                 			le.setHealth(le.getHealth()/4);
                 			le.setFireTicks(20*6);
                 			le.damage(0f);
+                			}		
                 		}
                 	}
             	}
