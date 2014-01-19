@@ -1,5 +1,6 @@
 package me.frodenkvist.armoreditor;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -7,6 +8,7 @@ import org.bukkit.FireworkEffect.Type;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import PvpBalance.PVPPlayer;
 import PvpBalance.PvpHandler;
 
 public class SkillHealingBurst extends Skill
@@ -29,11 +31,11 @@ public class SkillHealingBurst extends Skill
 		{
 			return false;
 		}
-		strikeLigtning(center,4,4);
+		strikeLigtning(center,4,10,caster);
 		return true;
 	}
 	
-	public void strikeLigtning(Location center, int height, int radius)
+	public void strikeLigtning(Location center, int height, int radius, Player caster)
 	{
 		int radiusX = radius;
 		int radiusZ = radius;
@@ -47,36 +49,22 @@ public class SkillHealingBurst extends Skill
         //int ceilRadiusX = (int) Math.ceil(radiusX);
         //int ceilRadiusZ = (int) Math.ceil(radiusZ);
         
-        for(Entity en : center.getWorld().getEntities())
+        for(Entity en : caster.getNearbyEntities(10, 10, 10))
         {
         	if(en == null)
         		continue;
         	if(!(en instanceof Player))
         		continue;
-        	//Bukkit.broadcastMessage("1");
-        	Player le = (Player)en;
-        	Location loc = le.getLocation();
-        	//Bukkit.broadcastMessage(center.getBlockX() + "");
-        	if(center.getBlockX()+radius-loc.getBlockX() >= 0 && center.getBlockX()+radius-loc.getBlockX() < radius*2)
-        	{
-        		//Bukkit.broadcastMessage("2");
-        		if(center.getBlockZ()+radius-loc.getBlockZ() >= 0 && center.getBlockZ()+radius-loc.getBlockZ() < radius*2)
-            	{
-        			//Bukkit.broadcastMessage("3");
-        			if(center.getBlockY()+height-loc.getBlockY() < center.getBlockY()+height)
-                	{
-        				//Bukkit.broadcastMessage("4");
-                		if(lengthSq((center.getBlockX()+radius-loc.getBlockX() + 1)*invRadiusX, (center.getBlockZ()+radius-loc.getBlockZ() + 1)*invRadiusZ) <= 1)
-                		{
-                			//Bukkit.broadcastMessage("5");
-                			//center.getWorld().strikeLightningEffect(le.getLocation());
-                			PvpHandler.getPvpPlayer(le).sethealth(PvpHandler.getPvpPlayer(le).getMaxHealth()); //TODO FIX TO ONLY PARTY MEMBERS
-                			//le.setFireTicks(20*6);
-                			//le.damage(0);
-                		}
-                	}
-            	}
-        	}
+			PVPPlayer PVPCaster = PvpHandler.getPvpPlayer(caster);
+			if(PVPCaster.isInParty())
+			{
+				PVPPlayer PVPTarget = PvpHandler.getPvpPlayer((Player)en);
+				if(PVPCaster.getParty().isMember(PVPTarget))
+				{
+					 PVPTarget.sethealth(PVPTarget.getMaxHealth());
+					 caster.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + PVPTarget.getPlayer().getName() + " FULLY HEALED!");
+				}
+			}
         }
 	}
 	

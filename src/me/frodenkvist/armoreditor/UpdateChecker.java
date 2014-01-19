@@ -33,17 +33,7 @@ public class UpdateChecker
 	{
 		try
 		{
-			InputStream input = fileFeed.openConnection().getInputStream();
-			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input);
-			
-			Node latestFile = document.getElementsByTagName("item").item(0);
-			NodeList children = latestFile.getChildNodes();
-			
-			version = children.item(1).getTextContent().replaceAll("[a-zA-Z ]", "");
-			link = children.item(3).getTextContent();
-			
-			if(!plugin.getDescription().getVersion().equalsIgnoreCase(version))
-				return true;
+			//
 		}
 		catch(Exception e)
 		{

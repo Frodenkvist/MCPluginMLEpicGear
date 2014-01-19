@@ -33,6 +33,7 @@ public class SkillSummonQuaxis extends Skill
 		if(!(en instanceof Player))
 			return false;
 		final Player target = (Player)en;
+		PvpHandler.getPvpPlayer(target).uncheckedDamage(PvpHandler.getPvpPlayer(target).gethealth()/2);
 		FireworkEffectPlayer fplayer = new FireworkEffectPlayer();
 		FireworkEffect fe = FireworkEffect.builder().withColor(Color.AQUA).withColor(Color.BLUE).withColor(Color.NAVY).with(Type.BALL_LARGE).build();
 		final Skeleton quaxis = (Skeleton)target.getWorld().spawnEntity(target.getLocation(), EntityType.SKELETON);

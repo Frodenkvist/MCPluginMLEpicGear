@@ -421,7 +421,7 @@ public class SkillLightningStorm extends Skill
                 			if(le instanceof Player)
                 				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
                 			else
-                				le.setHealth(le.getHealth()/2);
+                				le.setHealth(le.getHealth() - (le.getHealth()/10));
                 			le.damage(0f);
                 		}
                 	}

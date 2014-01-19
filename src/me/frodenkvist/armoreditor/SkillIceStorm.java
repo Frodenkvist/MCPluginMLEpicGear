@@ -424,8 +424,8 @@ public class SkillIceStorm extends Skill
 	                			if(le instanceof Player)
 	                				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
 	                			else
-	                				le.setHealth(le.getHealth()/2);
-	                			le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*10, 1));
+	                				le.setHealth(le.getHealth() - (le.getHealth()/10));
+	                			le.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 25*10, 1));
 	                			le.damage(0f);
 	                		}
 	                	}

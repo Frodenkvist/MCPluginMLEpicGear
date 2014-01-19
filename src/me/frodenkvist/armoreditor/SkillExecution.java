@@ -1,7 +1,5 @@
 package me.frodenkvist.armoreditor;
 
-import me.ThaH3lper.com.Effects.ParticleEffect;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -135,7 +133,7 @@ public class SkillExecution extends Skill
 																																
 																															}
 																														}
-																														PvpHandler.getPvpPlayer(target).uncheckedDamage(500);
+																														PvpHandler.getPvpPlayer(target).uncheckedDamage(500 + PvpHandler.getPvpPlayer(target).getMaxHealth() - (PvpHandler.getPvpPlayer(target).getMaxHealth()/2));
 																														target.damage(0D);
 																													}
 																													catch(Exception exc)

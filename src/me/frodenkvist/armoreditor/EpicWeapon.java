@@ -266,6 +266,10 @@ public class EpicWeapon extends EpicGear
 		{
 			return new SkillSummonQuaxis(Integer.valueOf(split[1]));
 		}
+		else if(split[0].equalsIgnoreCase("pushback"))
+		{
+			return new SkillPushback(Integer.valueOf(split[1]));
+		}
 		else
 		{
 			return null;
