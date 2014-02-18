@@ -19,26 +19,10 @@ public class UpdateChecker
 	
 	public UpdateChecker(ArmorEditor instance, String url)
 	{
-		plugin = instance;
-		try
-		{
-			fileFeed = new URL(url);
-		}
-		catch(Exception e)
-		{
-		}
 	}
 	
 	public boolean isUpdateNeeded()
-	{
-		try
-		{
-			//
-		}
-		catch(Exception e)
-		{
-		}
-		
+	{	
 		return false;
 	}
 	

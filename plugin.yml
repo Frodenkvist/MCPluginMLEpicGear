@@ -7,4 +7,5 @@ description: >
              Test. port plugin.
 commands:
     ae:
+    charge:
         description: Starter command.

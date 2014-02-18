@@ -140,6 +140,29 @@ public class EpicWeapon extends EpicGear
 				is = new ItemStack(Material.DIAMOND_HOE);
 			}
 		}
+		else if(material.equalsIgnoreCase("spade"))
+		{
+			if(type.equalsIgnoreCase("wood"))
+			{
+				is = new ItemStack(Material.WOOD_SPADE);
+			}
+			else if(type.equalsIgnoreCase("stone"))
+			{
+				is = new ItemStack(Material.STONE_SPADE);
+			}
+			else if(type.equalsIgnoreCase("iron"))
+			{
+				is = new ItemStack(Material.IRON_SPADE);
+			}
+			else if(type.equalsIgnoreCase("gold"))
+			{
+				is = new ItemStack(Material.GOLD_SPADE);
+			}
+			else if(type.equalsIgnoreCase("diamond"))
+			{
+				is = new ItemStack(Material.DIAMOND_SPADE);
+			}
+		}
 		else if(material.equalsIgnoreCase("bow"))
 		{
 			is = new ItemStack(Material.BOW);
@@ -156,6 +179,9 @@ public class EpicWeapon extends EpicGear
 			String[] split = s.split(",");
 			if(split.length != 2)
 				continue;
+			if(material.equalsIgnoreCase("spade")){
+				break;
+			}
 			if(!material.equalsIgnoreCase("bow"))
 			{
 				if(split[0].equalsIgnoreCase("sharpness"))

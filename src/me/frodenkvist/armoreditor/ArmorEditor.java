@@ -89,6 +89,10 @@ public class ArmorEditor extends JavaPlugin
 		if(sender instanceof Player)
 		{
 			final Player player = (Player)sender;
+			if(commandLabel.equalsIgnoreCase("charge"))
+			{
+				AdditionalEnchants.EnchantManagment.addCharges(player, player.getItemInHand());
+			}
 			if(commandLabel.equalsIgnoreCase("ae"))
 			{
 				if(args.length == 1)
