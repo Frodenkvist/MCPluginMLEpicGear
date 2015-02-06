@@ -4,8 +4,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-         
-import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 
         import org.bukkit.Bukkit;
 import org.bukkit.Location;

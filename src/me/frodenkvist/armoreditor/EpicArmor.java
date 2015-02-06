@@ -88,6 +88,7 @@ public class EpicArmor extends EpicGear
 		if(decay >= 0)
 			Namer.addLore(is, "Decay " + decay + "§k:-1");
 		Namer.setName(is, name);
+		lore.add(lore.size(), "§k newEpic");
 		Namer.addLore(is, lore);
 		LeatherArmorMeta lam = (LeatherArmorMeta)is.getItemMeta();
 		lam.setColor(color);

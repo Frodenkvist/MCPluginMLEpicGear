@@ -133,7 +133,7 @@ public class SkillExecution extends Skill
 																																
 																															}
 																														}
-																														PvpHandler.getPvpPlayer(target).uncheckedDamage(500 + PvpHandler.getPvpPlayer(target).getMaxHealth() - (PvpHandler.getPvpPlayer(target).getMaxHealth()/2));
+																														PvpHandler.getPvpPlayer(target).uncheckedDamage(200 + PvpHandler.getPvpPlayer(target).gethealth()/2);
 																														target.damage(0D);
 																													}
 																													catch(Exception exc)

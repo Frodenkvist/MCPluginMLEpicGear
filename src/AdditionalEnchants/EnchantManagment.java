@@ -82,11 +82,11 @@ public class EnchantManagment {
 						}
 					}
 				}
-				if(goldCount >5){
+				if(goldCount > 0){
 					String charge = lore.get(3);
 					String[] check = charge.split(":");
 					int charges = Integer.parseInt(check[1]);
-					charges += goldCount/5;
+					charges += goldCount;
 					lore.set(3, "CHARGES:" + (charges));
 					meta.setLore(lore);
 					weapon.setItemMeta(meta);

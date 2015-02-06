@@ -4,6 +4,7 @@ import me.ThaH3lper.com.Entitys.Mob;
 import me.ThaH3lper.com.Entitys.MobsHandler;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -11,8 +12,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import PvpBalance.Damage;
+import PvpBalance.Effects;
 import PvpBalance.PvpHandler;
 
 	public class SkillPushback extends Skill
@@ -24,347 +27,6 @@ import PvpBalance.PvpHandler;
 		
 		public boolean run(final Player caster)
 		{
-			final Location center = caster.getTargetBlock(null, 50).getLocation();
-			final FireworkEffectPlayer fplayer = new FireworkEffectPlayer();
-			final Location start1 = new Location(center.getWorld(),center.getX()+7,center.getY()+15,center.getZ());
-			final Location start2 = start1.clone();
-			try
-			{
-				final FireworkEffect fe = FireworkEffect.builder().flicker(true).with(Type.BURST).withColor(Color.AQUA).trail(false).build();
-				fplayer.playFirework(start1.getWorld(), start1, fe);
-				Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						try
-						{
-							fplayer.playFirework(start1.getWorld(), start1.add(0, 0, 1), fe);
-							fplayer.playFirework(start2.getWorld(), start2.add(0, 0, -1), fe);
-							Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-							{
-								@Override
-								public void run()
-								{
-									try
-									{
-										fplayer.playFirework(start1.getWorld(), start1.add(0, 0, 1), fe);
-										fplayer.playFirework(start2.getWorld(), start2.add(0, 0, -1), fe);
-										Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-										{
-											@Override
-											public void run()
-											{
-												try
-												{
-													fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 1), fe);
-													fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, -1), fe);
-													Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-													{
-														@Override
-														public void run()
-														{
-															try
-															{
-																fplayer.playFirework(start1.getWorld(), start1.add(0, 0, 1), fe);
-																fplayer.playFirework(start2.getWorld(), start2.add(0, 0, -1), fe);
-																Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																{
-																	@Override
-																	public void run()
-																	{
-																		try
-																		{
-																			fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 1), fe);
-																			fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, -1), fe);
-																			Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																			{
-																				@Override
-																				public void run()
-																				{
-																					try
-																					{
-																						fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 1), fe);
-																						fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, -1), fe);
-																						Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																						{
-																							@Override
-																							public void run()
-																							{
-																								try
-																								{
-																									fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 0), fe);
-																									fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 0), fe);
-																									Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																									{
-																										@Override
-																										public void run()
-																										{
-																											try
-																											{
-																												fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 1), fe);
-																												fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, -1), fe);
-																												Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																												{
-																													@Override
-																													public void run()
-																													{
-																														try
-																														{
-																															fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 0), fe);
-																															fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 0), fe);
-																															Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																															{
-																																@Override
-																																public void run()
-																																{
-																																	try
-																																	{
-																																		fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 0), fe);
-																																		fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 0), fe);
-																																		Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																		{
-																																			@Override
-																																			public void run()
-																																			{
-																																				try
-																																				{
-																																					fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 0), fe);
-																																					fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 0), fe);
-																																					Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																					{
-																																						@Override
-																																						public void run()
-																																						{
-																																							try
-																																							{
-																																								fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 0), fe);
-																																								fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 0), fe);
-																																								Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																								{
-																																									@Override
-																																									public void run()
-																																									{
-																																										try
-																																										{
-																																											fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, -1), fe);
-																																											fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 1), fe);
-																																											Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																											{
-																																												@Override
-																																												public void run()
-																																												{
-																																													try
-																																													{
-																																														fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, 0), fe);
-																																														fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 0), fe);
-																																														Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																														{
-																																															@Override
-																																															public void run()
-																																															{
-																																																try
-																																																{
-																																																	fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, -1), fe);
-																																																	fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 1), fe);
-																																																	Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																																	{
-																																																		@Override
-																																																		public void run()
-																																																		{
-																																																			try
-																																																			{
-																																																				fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, -1), fe);
-																																																				fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 1), fe);
-																																																				Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																																				{
-																																																					@Override
-																																																					public void run()
-																																																					{
-																																																						try
-																																																						{
-																																																							fplayer.playFirework(start1.getWorld(), start1.add(0, 0, -1), fe);
-																																																							fplayer.playFirework(start2.getWorld(), start2.add(0, 0, 1), fe);
-																																																							Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																																							{
-																																																								@Override
-																																																								public void run()
-																																																								{
-																																																									try
-																																																									{
-																																																										fplayer.playFirework(start1.getWorld(), start1.add(-1, 0, -1), fe);
-																																																										fplayer.playFirework(start2.getWorld(), start2.add(-1, 0, 1), fe);
-																																																										Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																																										{
-																																																											@Override
-																																																											public void run()
-																																																											{
-																																																												try
-																																																												{
-																																																													fplayer.playFirework(start1.getWorld(), start1.add(0, 0, -1), fe);
-																																																													fplayer.playFirework(start2.getWorld(), start2.add(0, 0, 1), fe);
-																																																													Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																																													{
-																																																														@Override
-																																																														public void run()
-																																																														{
-																																																															try
-																																																															{
-																																																																fplayer.playFirework(start1.getWorld(), start1.add(0, 0, -1), fe);
-																																																																fplayer.playFirework(start2.getWorld(), start2.add(0, 0, 1), fe);
-																																																																Bukkit.getScheduler().scheduleSyncDelayedTask(ArmorEditor.plugin, new Runnable()
-																																																																{
-																																																																	@Override
-																																																																	public void run()
-																																																																	{
-																																																																		strikeLigtning(center,15,7,caster);
-																																																																	}
-																																																																},(long)1.65);
-																																																															}
-																																																															catch (Exception e)
-																																																															{
-																																																																e.printStackTrace();
-																																																															}
-																																																														}
-																																																													},(long)1.65);
-																																																												}
-																																																												catch (Exception e)
-																																																												{
-																																																													e.printStackTrace();
-																																																												}
-																																																											}
-																																																										},(long)1.65);
-																																																									}
-																																																									catch (Exception e)
-																																																									{
-																																																										e.printStackTrace();
-																																																									}
-																																																								}
-																																																							},(long)1.65);
-																																																						}
-																																																						catch (Exception e)
-																																																						{
-																																																							e.printStackTrace();
-																																																						}
-																																																					}
-																																																				},(long)1.65);
-																																																			}
-																																																			catch (Exception e)
-																																																			{
-																																																				e.printStackTrace();
-																																																			}
-																																																		}
-																																																	},(long)1.65);
-																																																}
-																																																catch (Exception e)
-																																																{
-																																																	e.printStackTrace();
-																																																}
-																																															}
-																																														},(long)1.65);
-																																													}
-																																													catch (Exception e)
-																																													{
-																																														e.printStackTrace();
-																																													}
-																																												}
-																																											},(long)1.65);
-																																										}
-																																										catch (Exception e)
-																																										{
-																																											e.printStackTrace();
-																																										}
-																																									}
-																																								},(long)1.65);
-																																							}
-																																							catch (Exception e)
-																																							{
-																																								e.printStackTrace();
-																																							}
-																																						}
-																																					},(long)1.65);
-																																				}
-																																				catch (Exception e)
-																																				{
-																																					e.printStackTrace();
-																																				}
-																																			}
-																																		},(long)1.65);
-																																	}
-																																	catch (Exception e)
-																																	{
-																																		e.printStackTrace();
-																																	}
-																																}
-																															},(long)1.65);
-																														}
-																														catch (Exception e)
-																														{
-																															e.printStackTrace();
-																														}
-																													}
-																												},(long)1.65);
-																											}
-																											catch (Exception e)
-																											{
-																												e.printStackTrace();
-																											}
-																										}
-																									},(long)1.65);
-																								}
-																								catch (Exception e)
-																								{
-																									e.printStackTrace();
-																								}
-																							}
-																						},(long)1.65);
-																					}
-																					catch (Exception e)
-																					{
-																						e.printStackTrace();
-																					}
-																				}
-																			},(long)1.65);
-																		}
-																		catch (Exception e)
-																		{
-																			e.printStackTrace();
-																		}
-																	}
-																},(long)1.65);
-															}
-															catch (Exception e)
-															{
-																e.printStackTrace();
-															}
-														}
-													},(long)1.65);
-												}
-												catch (Exception e)
-												{
-													e.printStackTrace();
-												}
-											}
-										},(long)1.65);
-									}
-									catch (Exception e)
-									{
-										e.printStackTrace();
-									}
-								}
-							},(long)1.65);
-						}
-						catch (Exception e)
-						{
-							e.printStackTrace();
-						}
-					}
-				},(long)1.65);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
 			return true;
 		}
 		
@@ -419,10 +81,7 @@ import PvpBalance.PvpHandler;
 	                					continue;
 	                			}
 	                			if(le instanceof Player)
-	                				PvpHandler.getPvpPlayer((Player)le).uncheckedDamage(PvpHandler.getPvpPlayer((Player)le).gethealth()/2);
-	                			else
-	                				le.setHealth(le.getHealth() - (le.getHealth()/10));
-	                			le.damage(0f);
+	                				push((Player)le);
 	                		}
 	                	}
 	            	}
@@ -439,4 +98,20 @@ import PvpBalance.PvpHandler;
 	    {
 	        return (x * x) + (z * z);
 	    }
+		private void push(Player hit){
+				double d = 0.9;
+		        float hForce = 15 / 5.0F;
+		        float vForce = 12 / 5.0F;
+				Vector direction = hit.getLocation().getDirection();
+			    Vector forward = direction.multiply(-6);
+			    Vector v = hit.getLocation().toVector().subtract(hit.getLocation().add(0,0,0).toVector());
+			    v.add(forward);
+			    v.setY(0.7);
+			    v.normalize();
+			    v.multiply(hForce*d);
+			    v.setY(vForce*d);
+			    hit.setVelocity(v);
+				Effects.blockedPlayer(hit);
+				hit.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "YOU HAVE BEEN FORCED BACK!");
+	   }
 }
